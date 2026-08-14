@@ -1,0 +1,139 @@
+﻿title: DoutoraAzulInicio
+tags:
+position: -200,100
+---
+Detetive: "Doutora Azul, você trabalhava com o Sr. Vargas há quanto tempo?"
+Doutora Azul: "Há anos, detetive. O suficiente para entender bem os meandros de sua vida... e de seus conflitos."
+    -> "Havia conflitos entre vocês?"
+        <<jump DoutoraAzulConflitos>>
+    -> "Você conhecia muitos segredos dele?"
+        <<jump DoutoraAzulSegredos>>
+    -> "Como era a relação dele com os outros convidados?"
+        <<jump DoutoraAzulConvidados>>
+===
+
+title: DoutoraAzulConflitos
+position: -250,250
+---
+Doutora Azul: "No campo jurídico, conflitos são naturais, especialmente com alguém tão complexo quanto Vargas. Mas sempre mantivemos tudo no plano profissional."
+    -> "Então, nada de pessoal?"
+        <<jump DoutoraAzulPessoal>>
+    -> "Ele confiava em você?"
+        <<jump DoutoraAzulConfianca>>
+===
+
+title: DoutoraAzulPessoal
+position: -300,400
+---
+Doutora Azul: "Detetive, cada profissional tem seus limites... e eu respeito os meus. Certos aspectos de nossa relação são confidenciais."
+    -> "Certo, respeito sua reserva."
+        <<jump DoutoraAzulNadaAqui>>
+    -> "Confidenciais, como segredos de negócios?"
+        <<reveal "Convai NPC Doutora Azul" "suspeito">> // Revela carta de Suspeito
+===
+
+title: DoutoraAzulConfianca
+position: -300,300
+---
+Doutora Azul: "Confiança é algo raro, especialmente entre pessoas de poder. Ele confiava na minha discrição e em minha capacidade de resolver problemas."
+    -> "Problemas como ameaças?"
+        <<jump DoutoraAzulAmeacas>>
+    -> "Como ele reagia aos conflitos?"
+        <<jump DoutoraAzulReacoes>>
+===
+
+title: DoutoraAzulAmeacas
+position: -350,450
+---
+Doutora Azul: "Vargas tinha uma maneira particular de lidar com problemas. Acreditava que a lei era um recurso... flexível. Mas nunca me envolvi além do que era necessário."
+    -> "Flexível, como?"
+        <<jump DoutoraAzulNadaAqui>>
+    -> "Quer dizer que ele ultrapassava limites?"
+        <<reveal "Convai NPC Doutora Azul" "arma do crime">> // Revela carta de Arma
+===
+
+title: DoutoraAzulReacoes
+position: -400,250
+---
+Doutora Azul: "Ele não gostava de ser questionado, detetive. Para Vargas, o controle era essencial, e qualquer ameaça era uma ofensa pessoal."
+    -> "Ele se sentia ameaçado?"
+        <<jump DoutoraAzulNadaAqui>>
+    -> "E como você lidava com isso?"
+        <<jump DoutoraAzulNadaAqui>>
+===
+
+title: DoutoraAzulSegredos
+position: 100,250
+---
+Doutora Azul: "Segredos, detetive, são parte de qualquer contrato de confidencialidade. Mas Vargas era alguém que gostava de manter cartas na manga."
+    -> "Você sabe algo que possa ajudar a investigação?"
+        <<jump DoutoraAzulAjuda>>
+    -> "Ele mantinha segredos sobre os outros convidados?"
+        <<jump DoutoraAzulConvidadosSegredos>>
+===
+
+title: DoutoraAzulAjuda
+position: 200,400
+---
+Doutora Azul: "Vou ajudá-lo dentro do possível, mas lembre-se, sou advogada, não detetive. Preciso de provas antes de fazer qualquer afirmação."
+    -> "Sei que posso contar com sua ajuda, então."
+        <<jump DoutoraAzulNadaAqui>>
+    -> "E que provas você procura?"
+        <<jump DoutoraAzulProvas>>
+===
+
+title: DoutoraAzulProvas
+position: 300,500
+---
+Doutora Azul: "Provas irrefutáveis, algo que vá além de meras suspeitas. A verdade, detetive, exige mais do que conjecturas."
+    -> "Certo, vamos buscar a verdade."
+        <<jump DoutoraAzulNadaAqui>>
+    -> "E o que você acha que vamos encontrar?"
+        <<jump DoutoraAzulNadaAqui>>
+===
+
+title: DoutoraAzulConvidados
+position: 300,100
+---
+Doutora Azul: "Os outros convidados? Ah, detetive, em círculos como o nosso, todos mantêm as aparências... mas há sempre algo por trás dos sorrisos educados."
+    -> "Algum deles se destacava para você?"
+        <<jump DoutoraAzulDestaca>>
+    -> "E quanto ao relacionamento com Vargas?"
+        <<jump DoutoraAzulRelacaoVargas>>
+===
+
+title: DoutoraAzulDestaca
+position: 400,250
+---
+Doutora Azul: "Cada um tem suas particularidades, mas o Sr. Verde sempre foi... incisivo. Um homem que nunca esconde sua ambição."
+    -> "E você o vê como um possível suspeito?"
+        <<reveal "Convai NPC Doutora Azul" "suspeito">> // Revela carta de Suspeito
+    -> "Interessante, continue."
+        <<jump DoutoraAzulNadaAqui>>
+===
+
+title: DoutoraAzulRelacaoVargas
+position: 500,300
+---
+Doutora Azul: "A relação dele com Vargas era... conveniente. Ambos obtinham benefícios, mas conveniências são frágeis, detetive."
+    -> "Que tipo de benefícios?"
+        <<jump DoutoraAzulNadaAqui>>
+    -> "Então, havia algum atrito?"
+        <<jump DoutoraAzulNadaAqui>>
+===
+
+title: DoutoraAzulConvidadosSegredos
+position: 100,450
+---
+Doutora Azul: "Ele tinha informações valiosas sobre cada um de nós. Vargas era um homem esperto, sabia que o poder está no que você sabe sobre os outros."
+    -> "Você acha que ele usava essas informações contra vocês?"
+        <<jump DoutoraAzulNadaAqui>>
+    -> "Alguém pode ter se incomodado com isso?"
+        <<jump DoutoraAzulNadaAqui>>
+===
+
+title: DoutoraAzulNadaAqui
+position: -150,500
+---
+Detetive: "Entendo, doutora. Vamos seguir adiante."
+===

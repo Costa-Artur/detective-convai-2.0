@@ -1,0 +1,107 @@
+﻿title: ChefeBrancoInicio
+tags:
+position: -200,100
+---
+Detetive: "Você teve problemas com o Sr. Vargas no passado?"
+Chefe Branco: "Problemas? Vamos dizer que nossa receita de amizade desandou um pouco... mas eu jamais queimaria meu próprio nome."
+    -> "O que você estava fazendo na cozinha mais cedo?" 
+        <<jump ChefeBrancoCozinha>>
+    -> "O que você acha de armas, chefe?" 
+        <<jump ChefeBrancoArmas>>
+    -> "Como está o relacionamento com os outros convidados?" 
+        <<jump ChefeBrancoConvidados>>
+===
+
+title: ChefeBrancoCozinha
+position: -250,250
+---
+Chefe Branco: "Na cozinha, preparo o que é necessário... ingredientes para o sucesso e talvez segredos para esconder."
+    -> "Escondendo o quê?" 
+        <<jump ChefeBrancoEsconder>>
+    -> "Então, nada demais por lá?" 
+        <<jump ChefeBrancoNadaDemais>>
+===
+
+title: ChefeBrancoEsconder
+position: -300,400
+---
+Chefe Branco: "Ah, detetive... alguns ingredientes precisam de um toque especial, digamos. Mas pode acreditar, tudo o que faço ali é com as melhores intenções."
+    -> "Posso dar uma olhada por lá?" 
+        <<reveal "Convai NPC Chefe Branco" "local">> // Revela carta de Local
+    -> "Vou perguntar sobre isso depois." 
+        // <<jump ChefeBrancoNadaAqui>>
+===
+
+title: ChefeBrancoNadaDemais
+position: -300,300
+---
+Chefe Branco: "Nada demais... a menos que algo esteja queimando no fogão, não costumo me preocupar. Só tento manter tudo nos conformes."
+    -> "Certo, vou deixar você trabalhar." 
+        <<jump ChefeBrancoNadaAqui>>
+===
+
+title: ChefeBrancoNadaAqui
+position: -150,500
+---
+Detetive: "Entendo, chef. Vamos adiante."
+===
+
+title: ChefeBrancoArmas
+position: 100,250
+---
+Chefe Branco: "Armas? Eu prefiro cutelos e colheres de pau, mas suponho que algumas pessoas precisem de algo mais... afiado."
+    -> "Acha que alguém aqui teria acesso a armas?" 
+        <<jump ChefeBrancoAcessoArmas>>
+    -> "Você tem uma faca específica para cada corte?" 
+        <<jump ChefeBrancoFacas>>
+===
+
+title: ChefeBrancoAcessoArmas
+position: 100,400
+---
+Chefe Branco: "No mundo culinário, cada um cuida de suas lâminas. Vargas era do tipo que gostava de exibir as dele, mas prefiro não especular sobre outras intenções."
+    -> "Entendo, obrigado." 
+        <<jump ChefeBrancoNadaAqui>>
+    -> "Vargas tinha algo guardado aqui?" 
+        <<reveal "Convai NPC Chefe Branco" "arma do crime">> // Revela carta de arma
+===
+
+title: ChefeBrancoFacas
+position: 200,500
+---
+Chefe Branco: "Ah, detetive, toda faca tem seu propósito, mas nada além de culinária."
+    -> "Então nada de especial?" 
+        <<jump ChefeBrancoNadaAqui>>
+    -> "Algo me diz que você sabe mais." 
+        <<jump ChefeBrancoNadaAqui>>
+===
+
+title: ChefeBrancoConvidados
+position: 300,100
+---
+Chefe Branco: "Convidados... uma mistura interessante esta noite. Alguns são como pratos refinados, outros, mais indigestos."
+    -> "Quem seria o mais indigesto para você?" 
+        <<jump ChefeBrancoIndigesto>>
+    -> "E Vargas, como se encaixaria?" 
+        <<jump ChefeBrancoVargas>>
+===
+
+title: ChefeBrancoIndigesto
+position: 400,250
+---
+Chefe Branco: "Bem, digamos que o Coronel Amarelo tem uma presença... marcante, para dizer o mínimo. Mas prefiro manter a diplomacia à mesa."
+    -> "Entendo. Obrigado, chef." 
+        <<jump ChefeBrancoNadaAqui>>
+    -> "Marcante como?" 
+        <<reveal "Convai NPC Chefe Branco" "suspeito">> // Revela carta de suspeito
+===
+
+title: ChefeBrancoVargas
+position: 500,300
+---
+Chefe Branco: "Ah, Vargas... ele ajudou muitos de nós a alcançar nossos objetivos, mas sabia demais. Não o subestime, detetive."
+    -> "Ajudou você?" 
+        <<jump ChefeBrancoNadaAqui>>
+    -> "Como sabia tanto?" 
+        <<jump ChefeBrancoNadaAqui>>
+===

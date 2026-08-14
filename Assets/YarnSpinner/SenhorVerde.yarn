@@ -1,0 +1,139 @@
+title: SenhorVerdeInicio
+tags:
+position: -150,100
+---
+Detetive: "Por que você estava na festa do Sr. Vargas?"
+Senhor Verde: "Ah, o Sr. Vargas... sempre um homem cheio de surpresas. Mas a festa era apenas um pretexto, não acha?"
+    -> "Um pretexto para o quê?"
+        <<jump SenhorVerdePretexto>>
+    -> "Havia algo especial entre vocês?"
+        <<jump SenhorVerdeEspecial>>
+    -> "Você o conhecia bem?"
+        <<jump SenhorVerdeConhecido>>
+===
+
+title: SenhorVerdePretexto
+position: -200,250
+---
+Senhor Verde: "As festas sempre têm um propósito oculto. Vargas sabia como atrair as pessoas para seu círculo."
+    -> "E você era uma dessas pessoas?"
+        <<jump SenhorVerdeEraUmaPessa>>
+    -> "O que mais ele poderia querer?"
+        <<jump SenhorVerdeNadaAqui>>
+===
+
+title: SenhorVerdeEraUmaPessa
+position: 0,300
+---
+Senhor Verde: "Quem pode dizer? É fácil se perder em uma dança quando a música é tão envolvente."
+    -> "Dança? Isso soa íntimo." 
+        <<jump SenhorVerdeIntimo>>
+    -> "E a música é sempre doce, não?" 
+        <<jump SenhorVerdeNadaAqui>>
+===
+
+title: SenhorVerdeIntimo
+position: 100,250
+---
+Senhor Verde: "Intimidade é um conceito interessante. O que é um passo de dança senão uma troca de energia?"
+    -> "Uma troca que pode dizer muito." 
+        <<jump SenhorVerdeTroca>>
+    -> "E você dançava frequentemente?" 
+        <<jump SenhorVerdeNadaAqui>>
+===
+
+title: SenhorVerdeTroca
+position: 200,400
+---
+Senhor Verde: "Dançamos e trocamos confidências. Mas quem sou eu para expor os segredos de Vargas?"
+    -> "Segredos? Isso soa intrigante." 
+        <<jump SenhorVerdeIntrigante>>
+    -> "Você se preocupava com ele?" 
+        <<jump SenhorVerdeNadaAqui>>
+===
+
+title: SenhorVerdeIntrigante
+position: 300,300
+---
+Senhor Verde: "Intrigante, sim, mas a curiosidade pode ser uma armadilha. Vargas tinha muitos aspectos que ele mantinha ocultos."
+    -> "Quais aspectos?" 
+        <<jump SenhorVerdeAspectos>>
+    -> "E você estava ciente disso?" 
+        <<jump SenhorVerdeNadaAqui>>
+===
+
+title: SenhorVerdeAspectos
+position: 400,250
+---
+Senhor Verde: "Vargas era um homem complexo. Às vezes, eu sentia que conhecia cada nuance dele, outras vezes, ele era um completo mistério."
+    -> "E você preferia o mistério?" 
+        <<jump SenhorVerdePreferiaMistério>>
+    -> "Então você sentia que havia mais entre vocês?" 
+        <<jump SenhorVerdeNadaAqui>>
+===
+
+title: SenhorVerdePreferiaMistério
+position: 500,250
+---
+Senhor Verde: "Mistério mantém as coisas interessantes. A vida é muito curta para não saborear o enigma."
+    -> "E esse enigma poderia esconder algo perigoso?" 
+        <<jump SenhorVerdePerigoso>>
+    -> "A vida é cheia de surpresas, não é? Onde vocês costumavam 'dançar'?" 
+        <<reveal "Convai NPC Senhor Verde" "local">> // Revela carta de Arma
+===
+
+title: SenhorVerdePerigoso
+position: 600,300
+---
+Senhor Verde: "Perigosos? Às vezes, a verdadeira ameaça é o que não é revelado. Vargas era um jogador, e eu sempre fui um especialista em jogar com as cartas."
+    -> "E se ele tivesse uma arma?" 
+        <<reveal "Convai NPC Senhor Verde" "arma do crime">> // Revela carta de Arma
+    -> "Você não parecia ter medo dele." 
+        <<jump SenhorVerdeNadaAqui>>
+===
+
+title: SenhorVerdeConhecido
+position: 700,250
+---
+Senhor Verde: "Conhecido? Conhecer alguém é apenas a ponta do iceberg. O que realmente sabemos um do outro?"
+    -> "Um ponto de vista interessante." 
+        <<jump SenhorVerdePontoInteresante>>
+    -> "Você sentiu que realmente o conhecia?" 
+        <<jump SenhorVerdeNadaAqui>>
+===
+
+title: SenhorVerdePontoInteresante
+position: 800,300
+---
+Senhor Verde: "Um jogo de máscaras. Todos nós usamos uma, e algumas vezes, a mais próxima é a mais difícil de tirar."
+    -> "E a máscara de Vargas era segura?" 
+        <<jump SenhorVerdeMascaraSegura>>
+    -> "Você está se referindo a algo em particular?" 
+        <<jump SenhorVerdeNadaAqui>>
+===
+
+title: SenhorVerdeMascaraSegura
+position: 900,350
+---
+Senhor Verde: "Segura, mas todos os segredos têm seu preço. Você está disposto a pagá-lo?"
+    -> "Isso significa que você tem segredos também?" 
+        <<jump SenhorVerdeSegredos>>
+    -> "Qual seria o preço?" 
+        <<jump SenhorVerdeNadaAqui>>
+===
+
+title: SenhorVerdeSegredos
+position: 1000,300
+---
+Senhor Verde: "Segredos são como cartas. Algumas são melhores deixadas no baralho. Mas, se você realmente quiser saber..."
+    -> "O que você tem para me mostrar?" 
+        <<reveal "Convai NPC Senhor Verde" "suspeito">> // Revela carta de Suspeito
+    -> "Talvez eu não queira saber." 
+        <<jump SenhorVerdeNadaAqui>>
+===
+
+title: SenhorVerdeNadaAqui
+position: 1100,100
+---
+Detetive: "Entendo, vamos seguir adiante."
+===

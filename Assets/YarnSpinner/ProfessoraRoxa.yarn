@@ -1,0 +1,89 @@
+title: ProfessoraRoxaInicio
+tags:
+position: -300,100
+---
+Detetive: "Professora Roxa, como você se sentiu ao saber da morte de seu pai?"
+Professora Roxa: "Sentimentos... são mais complexos do que respostas simples, detetive. Há mágoa, mas também uma certa serenidade. Como disse Aristóteles, 'a vida é um aprendizado constante'."
+    -> "Vocês discutiam frequentemente?"
+        <<jump ProfessoraRoxaDiscutiam>>
+    -> "Algum desentendimento recente?"
+        <<jump ProfessoraRoxaDesentendimento>>
+    -> "Como era sua relação com ele?"
+        <<jump ProfessoraRoxaRelacao>>
+===
+
+title: ProfessoraRoxaDiscutiam
+position: -400,250
+---
+Professora Roxa: "Sim, nossa visão de mundo divergia. Ele via poder, eu via responsabilidade."
+    -> "Responsabilidade para com quem?"
+        <<reveal "Convai NPC Professora Roxa" "local">> // Revela carta de Local
+    -> "E poder para ele significava o quê?"
+        <<jump ProfessoraRoxaPoder>>
+===
+
+title: ProfessoraRoxaPoder
+position: -450,400
+---
+Professora Roxa: "Significava controle, manipulação... e a sensação de superioridade que o acompanhava. Para ele, sempre era uma questão de vencer."
+    -> "E você, queria vencê-lo?"
+        <<jump ProfessoraRoxaNadaAqui>>
+    -> "Vencer, ou apenas compreender?"
+        <<jump ProfessoraRoxaNadaAqui>>
+===
+
+title: ProfessoraRoxaDesentendimento
+position: -100,250
+---
+Professora Roxa: "Desentendimentos, detetive? A vida inteira. Meu pai era inflexível, e nossas diferenças só se acentuaram com o tempo."
+    -> "As discussões chegaram a ser violentas?"
+        <<reveal "Convai NPC Professora Roxa" "arma do crime">> // Revela carta de Arma
+    -> "Discutiam sobre herança?"
+        <<jump ProfessoraRoxaHeranca>>
+===
+
+title: ProfessoraRoxaHeranca
+position: -150,400
+---
+Professora Roxa: "A herança... para ele, parecia uma forma de controle, até depois da morte. Eu queria que seu legado fosse algo mais."
+    -> "Como assim, mais?"
+        <<jump ProfessoraRoxaNadaAqui>>
+    -> "E isso o incomodava?"
+        <<jump ProfessoraRoxaNadaAqui>>
+===
+
+title: ProfessoraRoxaRelacao
+position: 200,100
+---
+Professora Roxa: "Relação? Se é que posso chamar assim. Para ele, laços familiares eram conveniências, um jogo de xadrez."
+    -> "Acredita que ele tinha inimigos?"
+        <<jump ProfessoraRoxaInimigos>>
+    -> "Ele a via como uma ameaça?"
+        <<jump ProfessoraRoxaAmeaca>>
+===
+
+title: ProfessoraRoxaInimigos
+position: 300,250
+---
+Professora Roxa: "Com certeza. Meu pai lidava com muitos aliados e tantos outros rivais. No fundo, ele se alimentava dessa tensão."
+    -> "Como o Coronel Amarelo, talvez?"
+        <<reveal "Convai NPC Professora Roxa" "suspeito">> // Revela carta de Suspeito
+    -> "Isso o manteve distante de você?"
+        <<jump ProfessoraRoxaNadaAqui>>
+===
+
+title: ProfessoraRoxaAmeaca
+position: 350,400
+---
+Professora Roxa: "Ameaça? Eu diria que ele me via como uma decepção. E talvez... uma sombra que ele não poderia moldar ao seu gosto."
+    -> "Entendo. Vamos continuar." 
+        <<jump ProfessoraRoxaNadaAqui>>
+    -> "E essa decepção, era recíproca?"
+        <<jump ProfessoraRoxaNadaAqui>>
+===
+
+title: ProfessoraRoxaNadaAqui
+position: -100,500
+---
+Detetive: "Obrigado, Professora Roxa. Vou fazer mais perguntas depois."
+===

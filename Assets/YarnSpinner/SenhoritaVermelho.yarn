@@ -1,0 +1,111 @@
+title: SenhoritaVermelhoInicio
+tags:
+position: -200,100
+---
+Detetive: "Senhorita Vermelho, você parecia estar sempre de olho no Sr. Vargas."
+Senhorita Vermelho: "Observar é minha profissão. E ele... um personagem intrigante."
+    -> "O que o tornava tão intrigante?"
+        <<jump SenhoritaVermelhoIntrigante>>
+    -> "Você tem segredos dele?"
+        <<jump SenhoritaVermelhoSegredos>>
+    -> "Era só curiosidade profissional?"
+        <<jump SenhoritaVermelhoCuriosidade>>
+===
+
+title: SenhoritaVermelhoIntrigante
+position: -250,250
+---
+Senhorita Vermelho: "Ele mantinha o público entretido. Mas sempre com algo escondido."
+    -> "Algo que valia a pena investigar?"
+        <<jump SenhoritaVermelhoInvestigar>>
+    -> "Você encontrou algo suspeito?"
+        <<jump SenhoritaVermelhoNadaAqui>>
+===
+
+title: SenhoritaVermelhoSegredos
+position: -300,400
+---
+Senhorita Vermelho: "Todo mundo tem segredos, detetive. Eu só observo e registro."
+    -> "Você sabia de algo comprometedor?"
+        <<jump SenhoritaVermelhoComprometedor>>
+    -> "Ou talvez você quisesse manter algo oculto?"
+        <<jump SenhoritaVermelhoNadaAqui>>
+===
+
+title: SenhoritaVermelhoCuriosidade
+position: -350,500
+---
+Senhorita Vermelho: "Curiosidade é minha ferramenta. Mas eu também sabia... quando alguém estava em perigo."
+    -> "Perigo? Isso envolve armas?"
+        <<jump SenhoritaVermelhoArmas>>
+    -> "Perigo para você ou para ele?"
+        <<jump SenhoritaVermelhoNadaAqui>>
+===
+
+title: SenhoritaVermelhoInvestigar
+position: 100,250
+---
+Senhorita Vermelho: "Ele tinha negócios que o conectavam a lugares discretos... demais até."
+    -> "Como esta mansão?"
+        <<reveal "Convai NPC Senhorita Vermelho" "local">> // Revela carta de Local
+    -> "Ou outros lugares fora daqui?"
+        <<jump SenhoritaVermelhoNadaAqui>>
+===
+
+title: SenhoritaVermelhoComprometedor
+position: 200,500
+---
+Senhorita Vermelho: "Algo sempre parecia fora do lugar. Mas ele sabia esconder muito bem."
+    -> "Talvez uma arma seja parte disso?"
+        <<jump SenhoritaVermelhoComprometedorArma>>
+    -> "Você acha que alguém queria silenciá-lo?"
+        <<jump SenhoritaVermelhoNadaAqui>>
+===
+
+title: SenhoritaVermelhoComprometedorArma
+position: 300,100
+---
+Senhorita Vermelho: "Armas fazem barulho, detetive. E ele sabia como manter o silêncio."
+    -> "Silêncio, mas até quando?"
+        <<reveal "Convai NPC Senhorita Vermelho" "arma do crime">> // Revela carta de Arma
+    -> "E talvez esse silêncio seja o seu fim."
+        <<jump SenhoritaVermelhoNadaAqui>>
+===
+
+title: SenhoritaVermelhoArmas
+position: 400,250
+---
+Senhorita Vermelho: "Armas... só uma forma de poder para alguns. E ele tinha muitas."
+    -> "Você sabe onde ele guardava alguma?"
+        <<jump SenhoritaVermelhoNadaAqui>>
+    -> "Alguma dessas armas era pessoal?"
+        <<reveal "Convai NPC Senhorita Vermelho" "arma do crime">> // Revela carta de Arma
+===
+
+title: SenhoritaVermelhoNadaAqui
+position: -150,500
+---
+Detetive: "Entendo, Senhorita Vermelho. Vamos seguir adiante."
+===
+
+title: SenhoritaVermelhoNadaAqui2
+position: -250,500
+---
+Detetive: "Interessante, mas ainda não há algo sólido."
+===
+
+title: SenhoritaVermelhoSuspeitos
+position: 450,500
+---
+Senhorita Vermelho: "O Sr. Verde, talvez? Ou a Senhorita Azul... todos com seus próprios motivos."
+    -> "E você acha que alguém está encobrindo algo?"
+        <<reveal "Convai NPC Senhorita Vermelho" "suspeito">> // Revela carta de Suspeito
+    -> "Parece que há mais nisso."
+        <<jump SenhoritaVermelhoNadaAqui2>>
+===
+
+title: SenhoritaVermelhoNadaAqui3
+position: -150,600
+---
+Detetive: "Vamos mudar de assunto, então."
+===

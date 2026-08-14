@@ -1,0 +1,89 @@
+﻿title: CoronelAmareloInicio
+tags:
+position: -200,100
+---
+Detetive: "O que você e o Sr. Vargas discutiram antes de sua morte?"
+Coronel Amarelo: "Conversas entre homens de influência, detetive. Assuntos que não costumam interessar à polícia... até que algo dá errado."
+    -> "Vocês discutiram sobre dinheiro?" 
+        <<jump CoronelAmareloDinheiro>>
+    -> "Vocês mencionaram armas?" 
+        <<jump CoronelAmareloArmas>>
+    -> "Qual foi o verdadeiro motivo da visita?" 
+        <<jump CoronelAmareloMotivo>>
+===
+
+title: CoronelAmareloDinheiro
+position: -250,250
+---
+Coronel Amarelo: "Dinheiro sempre é parte das conversas com alguém como Vargas. Ele gostava de lembrar que sabia como controlá-lo."
+    -> "Controlar você, talvez?" 
+        <<reveal "Convai NPC Coronel Amarelo" "local">> // Revela carta de Local
+    -> "E você o respeitava por isso?" 
+        <<jump CoronelAmareloRespeito>>
+===
+
+title: CoronelAmareloRespeito
+position: -300,400
+---
+Coronel Amarelo: "Respeito... é uma palavra forte. Vamos dizer que eu reconhecia seu jogo, mas jogava as minhas próprias cartas."
+    -> "Que cartas, coronel?" 
+        <<jump CoronelAmareloNadaAqui>>
+    -> "Entendo. Continuando..." 
+        <<jump CoronelAmareloNadaAqui>>
+===
+
+title: CoronelAmareloArmas
+position: 100,250
+---
+Coronel Amarelo: "Armas? Vargas e eu temos visões diferentes sobre elas. Para mim, uma arma é mais do que uma peça de metal. É uma questão de honra."
+    -> "A honra às vezes leva a atos extremos?" 
+        <<jump CoronelAmareloHonra>>
+    -> "Então você tem uma arma com você?" 
+        <<reveal "Convai NPC Coronel Amarelo" "arma do crime">> // Revela carta de Arma
+===
+
+title: CoronelAmareloHonra
+position: 200,500
+---
+Coronel Amarelo: "Honra... você parece insinuar que ela pode ser negociada. Prefiro não responder."
+    -> "Interessante, coronel." 
+        <<jump CoronelAmareloNadaAqui>>
+    -> "Certamente, ninguém questionaria sua integridade." 
+        <<jump CoronelAmareloNadaAqui>>
+===
+
+title: CoronelAmareloMotivo
+position: 300,100
+---
+Coronel Amarelo: "O motivo? Resolvi aceitar o convite de Vargas por razões minhas. Ele e eu temos pendências... e pendências não resolvidas são como pólvora esperando uma faísca."
+    -> "E alguém aqui pode ter causado essa faísca?" 
+        <<jump CoronelAmareloSuspeitos>>
+    -> "Que tipo de pendências?" 
+        <<jump CoronelAmareloPendencias>>
+===
+
+title: CoronelAmareloSuspeitos
+position: 400,250
+---
+Coronel Amarelo: "Há muitos aqui que se ofenderiam se eu mencionasse suspeitas. Mas alguns... têm mais a esconder do que gostariam de admitir."
+    -> "Como o Chefe Branco?" 
+        <<reveal "Convai NPC Coronel Amarelo" "suspeito">> // Revela carta de Suspeito
+    -> "Prefere manter silêncio?" 
+        <<jump CoronelAmareloNadaAqui>>
+===
+
+title: CoronelAmareloPendencias
+position: 500,300
+---
+Coronel Amarelo: "Pendências financeiras, talvez... ele gostava de colecionar informações, segredos. E alguns segredos não devem ser expostos à luz."
+    -> "Ele tinha algo contra você?" 
+        <<jump CoronelAmareloNadaAqui>>
+    -> "Então, esse segredo agora se foi?" 
+        <<jump CoronelAmareloNadaAqui>>
+===
+
+title: CoronelAmareloNadaAqui
+position: -150,500
+---
+Detetive: "Entendo, coronel. Vamos seguir adiante."
+===
