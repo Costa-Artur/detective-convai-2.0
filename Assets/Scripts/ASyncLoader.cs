@@ -27,8 +27,22 @@ public class ASyncLoader : MonoBehaviour
 
     IEnumerator LoadLevelASync(string levelToLoad)
     {
+        // Calibra a latência real desta sessão (modelo + rede deste jogador) antes
+        // de entrar no jogo - alimenta o delay artificial dos NPCs roteirizados.
+        // Ver docs/arquitetura-npc-dinamico.md §5.
+        var calibrator = Detective.Dialogue.SessionLatencyCalibrator.Instance;
+        if (calibrator != null)
+        {
+            System.Threading.Tasks.Task calibration = calibrator.Calibrate();
+            while (!calibration.IsCompleted)
+            {
+                loadingSlider.value = 0.15f; // progresso simbólico durante a sondagem
+                yield return null;
+            }
+        }
+
         AsyncOperation loadOperation = SceneManager.LoadSceneAsync(levelToLoad);
-        
+
         while (!loadOperation.isDone)
         {
             float progressValue = Mathf.Clamp01(loadOperation.progress / 0.9f);

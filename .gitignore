@@ -71,3 +71,7 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 [Aa]ssets/[Ss]treamingAssets/aa.meta
 [Aa]ssets/[Ss]treamingAssets/aa/*
+
+# Segredos locais - NUNCA versionar chaves de API (ver docs/arquitetura-npc-dinamico.md)
+[Aa]ssets/[Ss]treamingAssets/azure_openai_key.txt
+[Aa]ssets/[Ss]treamingAssets/azure_openai_key.txt.meta

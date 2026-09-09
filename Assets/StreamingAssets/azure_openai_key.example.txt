@@ -1,0 +1,8 @@
+COLOQUE_SUA_CHAVE_AQUI_SEM_ASPAS_SEM_QUEBRA_DE_LINHA
+
+Instrucoes:
+1. Copie este arquivo para "azure_openai_key.txt" na mesma pasta (Assets/StreamingAssets/).
+2. Apague este texto de instrucoes do novo arquivo - deve conter APENAS a chave, em uma linha.
+3. "azure_openai_key.txt" ja esta no .gitignore - nunca vai ser commitado. Confirme com:
+   git status --short Assets/StreamingAssets/
+4. Pegue a chave no portal do Azure AI Foundry, no recurso Azure OpenAI criado com o plano de estudante.

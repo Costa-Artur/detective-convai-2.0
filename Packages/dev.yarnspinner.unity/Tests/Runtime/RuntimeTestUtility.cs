@@ -23,27 +23,27 @@ namespace Yarn.Unity.Tests
 
         private static string GeneratedAssemblyDefinitionFilePath => TestFilesDirectoryPath + "RuntimeTestAssembly.asmdef";
         
-        public static void AddSceneToBuild(string GUID)
+        public static void AddSceneToBuild(string sceneGuid)
         {
 #if UNITY_EDITOR
             // Is a scene with this GUID already in the list?
-            if (EditorBuildSettings.scenes.Any(x => x.guid.ToString() == GUID))
+            if (EditorBuildSettings.scenes.Any(x => x.guid.ToString() == sceneGuid))
             {
                 // Then there's nothing to do!
                 return;
             }
 
-            // Add the test scene 
-            var dialogueRunnerTestScene = new EditorBuildSettingsScene(new GUID(GUID), true);
+            // Add the test scene
+            var dialogueRunnerTestScene = new EditorBuildSettingsScene(new UnityEngine.GUID(sceneGuid), true);
             EditorBuildSettings.scenes = EditorBuildSettings.scenes.Concat(new[] { dialogueRunnerTestScene }).ToArray();
 #endif
         }
 
-        public static void RemoveSceneFromBuild(string GUID)
+        public static void RemoveSceneFromBuild(string sceneGuid)
         {
 #if UNITY_EDITOR
             // Filter the list to remove any scene with this GUID
-            EditorBuildSettings.scenes = EditorBuildSettings.scenes.Where(x => x.guid.ToString() != GUID).ToArray();
+            EditorBuildSettings.scenes = EditorBuildSettings.scenes.Where(x => x.guid.ToString() != sceneGuid).ToArray();
 #endif
         }
     }

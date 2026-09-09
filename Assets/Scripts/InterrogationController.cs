@@ -32,18 +32,9 @@ public class InterrogationController : MonoBehaviour
     void InitializeDialogStyles()
     {
         int npcCount = npcContainer.transform.childCount;
-        List<int> convaiNPCs = new List<int>();
 
-        // Seleciona metade dos NPCs para usar Convai
-        while (convaiNPCs.Count < npcCount / 2)
-        {
-            int randomIndex = UnityEngine.Random.Range(0, npcCount);
-            if (!convaiNPCs.Contains(randomIndex))
-            {
-                convaiNPCs.Add(randomIndex);
-                dialogStyle[randomIndex] = "Convai";
-            }
-        }
+        int randomIndex = UnityEngine.Random.Range(0, npcCount);
+        dialogStyle[randomIndex] = "Convai";
 
         // Define Yarn Spinner para os outros NPCs
         for (int i = 0; i < npcCount; i++)
