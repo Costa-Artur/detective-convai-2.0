@@ -42,7 +42,16 @@ public class LocalInventory : MonoBehaviour
     [YarnCommand("reveal")]
     public void RevealCard(string clueType = "")
     {
+        RevealCardOfType(clueType, "roteirizado");
+    }
+
+    // Mesma revelação, mas devolve a carta mostrada (comandos do Yarn só
+    // podem retornar void). "origem" vai para o log de sessão: "roteirizado"
+    // (comando <<reveal>>) ou "dinamico" (campo revelar_pista da IA).
+    public Clue RevealCardOfType(string clueType, string origem)
+    {
         Clue revealedClue = null;
+        bool usouCartaAleatoria = false;
 
         // Filtra as pistas pelo tipo, se especificado
         if (!string.IsNullOrEmpty(clueType))
@@ -58,7 +67,16 @@ public class LocalInventory : MonoBehaviour
         if (revealedClue == null && inventoryOfClues.Count > 0)
         {
             revealedClue = inventoryOfClues[Random.Range(0, inventoryOfClues.Count)];
+            usouCartaAleatoria = true;
         }
+
+        Detective.Dialogue.SessionLogger.Log("carta_revelada",
+            ("npc", Detective.Dialogue.SessionLogger.NomeNpc(this)),
+            ("origem", origem),
+            ("tipo_pedido", clueType ?? ""),
+            ("carta_mostrada", Detective.Dialogue.SessionLogger.Carta(revealedClue)),
+            ("tipo_diferente_do_pedido", usouCartaAleatoria),
+            ("cartas_do_npc", Detective.Dialogue.SessionLogger.Cartas(inventoryOfClues)));
 
         if (revealedClue != null)
         {
@@ -71,6 +89,8 @@ public class LocalInventory : MonoBehaviour
             revealCardText.text =$"{gameObject.GetComponent<ConvaiNPC>().characterName} não tem pistas do tipo '{clueType}' para revelar.";
             revealCardPanel.SetActive(true);
         }
+
+        return revealedClue;
     }
 
 }

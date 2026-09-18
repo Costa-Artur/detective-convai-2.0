@@ -39,6 +39,13 @@ namespace Detective.Dialogue
         public SchemaField fala = new SchemaField { type = "string" };
         public SchemaArrayField opcoes;
         public SchemaField encerrar = new SchemaField { type = "boolean" };
+
+        // Equivalente ao comando <<reveal>> dos .yarn: e assim que o NPC
+        // dinamico ENTREGA uma carta ao jogador, e nao apenas fala sobre ela.
+        // String vazia = nao revela nada neste turno. Nao e opcional no schema
+        // porque o modo estrito exige que toda propriedade seja obrigatoria -
+        // dai o uso de "" em vez de null.
+        public SchemaField revelar_pista = new SchemaField { type = "string" };
     }
 
     [Serializable]
@@ -46,7 +53,7 @@ namespace Detective.Dialogue
     {
         public string type = "object";
         public TurnSchemaProperties properties;
-        public string[] required = { "fala", "opcoes", "encerrar" };
+        public string[] required = { "fala", "opcoes", "encerrar", "revelar_pista" };
         public bool additionalProperties = false;
     }
 
@@ -120,5 +127,11 @@ namespace Detective.Dialogue
         public string fala;
         public string[] opcoes;
         public bool encerrar;
+
+        // "suspeito" | "arma do crime" | "local" | "" (vazio = nao revela).
+        // Quando preenchido, o jogo abre o painel "Pista Revelada" com uma
+        // carta daquele tipo do inventario do NPC - o mesmo efeito que o
+        // comando <<reveal>> produz nos NPCs roteirizados.
+        public string revelar_pista;
     }
 }

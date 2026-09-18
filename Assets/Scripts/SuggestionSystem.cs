@@ -84,6 +84,7 @@ public class SuggestionSystem : MonoBehaviour
 
     private void ShowResultPanel(String resultTextString)
     {
+        Detective.Dialogue.SessionLogger.Log("palpite_resultado", ("autor", "Jogador"), ("resultado", resultTextString));
         resultText.text = resultTextString; 
         resultPanel.SetActive(true);
     }
@@ -109,6 +110,12 @@ public class SuggestionSystem : MonoBehaviour
                 Debug.LogWarning("One of the guessed Clues is null = guessedLocation");
             }
         }
+
+        Detective.Dialogue.SessionLogger.Log("palpite",
+            ("autor", "Jogador"),
+            ("suspeito", Detective.Dialogue.SessionLogger.Carta(guessedPerson)),
+            ("arma", Detective.Dialogue.SessionLogger.Carta(guessedWeapon)),
+            ("local", Detective.Dialogue.SessionLogger.Carta(guessedLocation)));
 
         if (matchingClues == null || npcsWithoutClues == null || suggestionPanel == null || interrogationController == null)
         {
@@ -211,6 +218,11 @@ public class SuggestionSystem : MonoBehaviour
         currentNPCIndex = 0;
 
         Debug.Log(npcAI.name + " fez o palpite: " + guessedPerson.evidenceName + ", " + guessedWeapon.evidenceName + ", " + guessedLocation.evidenceName);
+        Detective.Dialogue.SessionLogger.Log("palpite",
+            ("autor", Detective.Dialogue.SessionLogger.NomeNpc(npcAI)),
+            ("suspeito", Detective.Dialogue.SessionLogger.Carta(guessedPerson)),
+            ("arma", Detective.Dialogue.SessionLogger.Carta(guessedWeapon)),
+            ("local", Detective.Dialogue.SessionLogger.Carta(guessedLocation)));
 
         // Percorre todos os NPCs até encontrar uma pista ou esgotar as opções
         while (currentNPCIndex < allInventories.Count)

@@ -17,7 +17,13 @@ MonoBehaviour:
   apiVersion: preview
   isReasoningModel: 1
   reasoningEffort: medium
-  optionCount: 2
+  sharedSceneContext: "Cen\xE1rio: a Mans\xE3o Monteiro, durante uma festa. O anfitri\xE3o,
+    Sr. Vargas, foi encontrado morto. Uma tempestade impede a pol\xEDcia de chegar,
+    ent\xE3o os pr\xF3prios convidados precisam esclarecer o caso. Os convidados
+    s\xE3o: Coronel Amarelo, Chefe Branco, Doutora Azul, Professora Roxa, Senhor
+    Verde e Senhorita Vermelho. O jogador \xE9 o detetive que interroga os convidados
+    um a um."
+  optionCount: 3
   maxTurns: 5
   maxChars: 220
   maxTokens: 300

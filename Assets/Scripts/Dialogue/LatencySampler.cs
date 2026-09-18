@@ -71,12 +71,12 @@ namespace Detective.Dialogue
             measured.Sort();
             float mean = measured.Average();
             float median = measured[measured.Count / 2];
-            int totalAccumulated = LatencySampleStore.LoadAllSamples().Count;
+            int totalAccumulated = LatencySampleStore.LoadAllSamples(tag).Count;
 
             Debug.Log(
                 $"[LatencySampler] Concluído: {measured.Count}/{sampleCount} sucesso nesta rodada. " +
                 $"Média: {mean:F0}ms · Mediana: {median:F0}ms · Min: {measured.Min():F0}ms · Max: {measured.Max():F0}ms. " +
-                $"Total acumulado em Logs/azure_latency_samples_ms.txt: {totalAccumulated} amostras.");
+                $"Total acumulado em Logs/latency_{tag}_ms.txt: {totalAccumulated} amostras.");
         }
     }
 }

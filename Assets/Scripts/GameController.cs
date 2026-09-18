@@ -14,8 +14,13 @@ public class GameController : MonoBehaviour
     public List<Clue> crimeEnvelope = new List<Clue>(); // Envelope de crime
 
     [Header("Configurações de Notificação")]
+    [Tooltip("OBSOLETO - deixe DESMARCADO. O InventoryNotifier avisava as cartas ao NPC por " +
+             "mensagem de chat da Convai e esperava ele responder; sem a Convai no caminho dos " +
+             "diálogos, essa espera nunca termina e o jogo trava em 'personagens estão lendo as " +
+             "cartas'. Hoje o DynamicNPCController lê as cartas direto do LocalInventory a cada " +
+             "requisição. Ver docs/arquitetura-npc-dinamico.md §3.")]
     [SerializeField]
-    private bool NotifyNpcsOfInventory = true; // Mutar jogador durante notificação
+    private bool NotifyNpcsOfInventory = false;
     
     // Start is called before the first frame update
     void Start()
@@ -49,10 +54,14 @@ public class GameController : MonoBehaviour
         // Distribui as pistas restantes para os NPCs e o jogador
         DistributeClues();
 
-        //Informa NPCs do Inventário
+        LogDealtCards();
+
+        //Informa NPCs do Inventário (caminho legado da Convai - ver tooltip do campo)
         if(NotifyNpcsOfInventory)
         {
+#pragma warning disable 618 // método marcado como obsoleto de propósito; a chamada segue aqui só para não remover o caminho antigo
             GetComponent<InventoryNotifier>().NotifyNPCsOfInventory();
+#pragma warning restore 618
         }
     }
 
@@ -123,6 +132,25 @@ public class GameController : MonoBehaviour
                     break;
                 }
             }
+        }
+    }
+
+    // Log de sessão: solução do crime e cartas de cada participante.
+    void LogDealtCards()
+    {
+        Detective.Dialogue.SessionLogger.RegistrarBaralho(deck);
+        Detective.Dialogue.SessionLogger.Log("solucao_do_crime",
+            ("suspeito", Detective.Dialogue.SessionLogger.Carta(crimeEnvelope.Find(c => c.type == "suspeito"))),
+            ("arma", Detective.Dialogue.SessionLogger.Carta(crimeEnvelope.Find(c => c.type == "arma do crime"))),
+            ("local", Detective.Dialogue.SessionLogger.Carta(crimeEnvelope.Find(c => c.type == "local"))));
+        Detective.Dialogue.SessionLogger.Log("cartas_distribuidas",
+            ("participante", "Jogador"),
+            ("cartas", Detective.Dialogue.SessionLogger.Cartas(playerInventory.GetAllClues())));
+        foreach (LocalInventory npcInventory in npcInventories)
+        {
+            Detective.Dialogue.SessionLogger.Log("cartas_distribuidas",
+                ("participante", Detective.Dialogue.SessionLogger.NomeNpc(npcInventory)),
+                ("cartas", Detective.Dialogue.SessionLogger.Cartas(npcInventory.GetAllClues())));
         }
     }
 

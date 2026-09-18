@@ -15,7 +15,13 @@ public class InterrogationController : MonoBehaviour
     public float distanceOffset = 2.0f; // Distância segura para evitar colisão
     public GameObject npcContainer; // Referência ao GameObject que contém os NPCs
     public TextMeshProUGUI characterNameText; // Referência ao TextMeshPro para o nome do NPC
-    public DialogueRunner dialogRunner; // Referência ao DialogRunner do Yarn Spinner
+    [Tooltip("Não é mais usado diretamente aqui - cada YarnDialogueSource tem a própria " +
+             "referência ao DialogueRunner. Mantido para não quebrar a referência da cena.")]
+    public DialogueRunner dialogRunner;
+
+    [Tooltip("Interface única de diálogo usada pelos 6 NPCs - roteirizados e dinâmico. " +
+             "Ver docs/arquitetura-npc-dinamico.md §3.")]
+    public Detective.Dialogue.UnifiedDialogueUI unifiedDialogueUI;
 
     private int currentIndex = 0; // Índice do personagem atual
     private Dictionary<int, string> dialogStyle = new Dictionary<int, string>(); // Dicionário para estilo de diálogo (Convai ou Yarn Spinner)
@@ -44,6 +50,28 @@ public class InterrogationController : MonoBehaviour
                 dialogStyle[i] = "YarnSpinner";
             }
         }
+
+        // ATENÇÃO: este log revela a resposta do experimento. É auxílio de
+        // DESENVOLVIMENTO - precisa ser removido (ou trocado por gravação em
+        // arquivo de log da sessão) antes dos testes com participantes, senão
+        // qualquer um que abra o Console descobre qual NPC é o de IA.
+        Transform chosen = npcContainer.transform.GetChild(randomIndex);
+        Debug.Log($"<color=cyan>[DEV] NPC dinâmico desta sessão: índice {randomIndex} — " +
+                  $"'{chosen.name}'</color>");
+
+        // Registro permanente do sorteio (a resposta certa do RF13), junto da
+        // configuração do modelo usada nesta partida.
+        var dynamicController = chosen.GetComponent<Detective.Dialogue.DynamicNPCController>();
+        Detective.Dialogue.AzureOpenAIConfig cfg = dynamicController != null ? dynamicController.config : null;
+        Detective.Dialogue.SessionLogger.Log("npc_dinamico_sorteado",
+            ("indice", randomIndex),
+            ("npc", Detective.Dialogue.SessionLogger.NomeNpc(chosen)),
+            ("objeto", chosen.name),
+            ("modelo", cfg != null ? cfg.deploymentName : "(sem config)"),
+            ("reasoning_effort", cfg != null && cfg.isReasoningModel ? cfg.reasoningEffort : "(n/a)"),
+            ("option_count", cfg != null ? cfg.optionCount : 0),
+            ("max_turns", cfg != null ? cfg.maxTurns : 0),
+            ("max_chars", cfg != null ? cfg.maxChars : 0));
     }
 
     // Função para navegar pelos personagens e sincronizar o inventário de NPCs
@@ -118,22 +146,41 @@ public class InterrogationController : MonoBehaviour
         }
     }
 
-    // Configura o diálogo do NPC de acordo com o estilo sorteado
+    // Abre a conversa com o NPC na interface unificada. Os dois sistemas de
+    // diálogo (roteirizado e dinâmico) passam pela MESMA interface - só muda
+    // quem gera as falas por trás. Ver docs/arquitetura-npc-dinamico.md §3.
     void ConfigureDialogueSystem(int index)
     {
-        if (dialogStyle[index] == "Convai")
+        Detective.Dialogue.IDialogueSource source = GetDialogueSource(index);
+        if (source == null) return;
+
+        unifiedDialogueUI.OpenConversation(source);
+    }
+
+    // Cada NPC carrega os DOIS componentes de origem (roteirizado e dinâmico);
+    // o sorteio de InitializeDialogStyles decide qual é usado nesta partida.
+    // Isso mantém os 6 personagens configurados de forma idêntica na cena.
+    Detective.Dialogue.IDialogueSource GetDialogueSource(int index)
+    {
+        if (unifiedDialogueUI == null)
         {
-            player.GetComponentInChildren<ConvaiNPCManager>().rayLength = 4.5f;
-            dialogRunner.Stop(); // Para o diálogo de Yarn se estiver ativo
+            Debug.LogError("[InterrogationController] 'unifiedDialogueUI' não atribuído no Inspector.");
+            return null;
         }
-        else if (dialogStyle[index] == "YarnSpinner")
+
+        Transform npc = npcContainer.transform.GetChild(index);
+
+        Detective.Dialogue.IDialogueSource source = dialogStyle[index] == "Convai"
+            ? npc.GetComponent<Detective.Dialogue.DynamicDialogueSource>()
+            : (Detective.Dialogue.IDialogueSource)npc.GetComponent<Detective.Dialogue.YarnDialogueSource>();
+
+        if (source == null)
         {
-            player.GetComponentInChildren<ConvaiNPCManager>().rayLength = 0f;
-            
-            dialogRunner.Stop(); // Para o diálogo de Yarn se estiver ativo
-            string nodeName = npcContainer.transform.GetChild(index).GetComponent<ConvaiNPC>().characterName.Replace(" ", "") + "Inicio";
-            dialogRunner.StartDialogue(nodeName);
+            Debug.LogError($"[InterrogationController] O NPC '{npc.name}' não tem o componente de " +
+                           $"diálogo necessário para o estilo '{dialogStyle[index]}'.");
         }
+
+        return source;
     }
 
     public string GetDialogStyle(int index)
@@ -141,49 +188,19 @@ public class InterrogationController : MonoBehaviour
         return dialogStyle.ContainsKey(index) ? dialogStyle[index] : "YarnSpinner";
     }
 
+    // Esconde o painel de diálogo temporariamente (quando o jogador abre o
+    // painel de palpite, de cartas, etc). A conversa NÃO é encerrada - o
+    // histórico do NPC dinâmico e a posição na árvore do Yarn são preservados.
     public void CloseNPCDialog(int index = -1)
     {
-        if (index == -1)
-        {
-            index = currentIndex;
-        }
-
-        if (dialogStyle[index] == "Convai")
-        {
-            player.GetComponentInChildren<ConvaiNPCManager>().rayLength = 0f;
-        }
-        else if (dialogStyle[index] == "YarnSpinner")
-        {
-            dialogRunner.Stop();
-        }
+        if (unifiedDialogueUI != null)
+            unifiedDialogueUI.Hide();
     }
 
+    // Volta a exibir a conversa que estava em andamento.
     public void ResumeNPCDialog(int index = -1)
     {
-        if (index == -1)
-        {
-            index = currentIndex;
-        }
-
-        if (dialogStyle[index] == "Convai")
-        {
-            player.GetComponentInChildren<ConvaiNPCManager>().rayLength = 4.5f;
-        }
-        else if (dialogStyle[index] == "YarnSpinner")
-        {
-            string nodeName = npcContainer.transform.GetChild(index).GetComponent<ConvaiNPC>().characterName.Replace(" ", "") + "Inicio";
-            if (!dialogRunner.IsDialogueRunning && dialogRunner.NodeExists(nodeName))
-            {
-                dialogRunner.Stop();
-                dialogRunner.StartDialogue(nodeName);
-            }
-            else if (nodeName != dialogRunner.CurrentNodeName && dialogRunner.NodeExists(nodeName))
-            {
-                dialogRunner.Stop();
-                dialogRunner.StartDialogue(nodeName);
-            }
-        }
-}
-
-
+        if (unifiedDialogueUI != null)
+            unifiedDialogueUI.Show();
+    }
 }

@@ -36,15 +36,28 @@ public class InventoryNotifier : MonoBehaviour
         }
     }
 
-    // Função para notificar todos os NPCs sobre os itens do seu inventário
+    // OBSOLETO - mantido apenas como referência histórica. Este método depende
+    // da Convai para funcionar: ele envia as cartas como mensagem de chat e
+    // espera o personagem RESPONDER (ver o laço em ActivateAndNotifyNPC). Sem a
+    // Convai no caminho dos diálogos, essa espera nunca termina e o jogo trava.
+    //
+    // Hoje as cartas entram no prompt a cada requisição, lidas do LocalInventory
+    // pelo DynamicNPCController - não há nada a notificar de antemão.
+    // Ver docs/arquitetura-npc-dinamico.md §3.
+    [System.Obsolete("Depende da Convai e trava sem ela. As cartas agora vão no prompt a cada requisição.")]
     [ContextMenu("Notify NPCs of Inventory")]
     public async void NotifyNPCsOfInventory()
     {
+        // try/finally: sem isto, uma falha (ou espera infinita) no meio do
+        // processo deixa o AudioListener desligado para sempre, e o Unity
+        // passa a acusar "There are no audio listeners in the scene" a cada frame.
+        try
+        {
         while (playerAudioListener == null)
         {
             await Task.Delay(100);
         }
-        
+
         // Mutar o jogador se a opção estiver habilitada
         if (mutePlayerDuringNotification && playerAudioListener != null)
         {
@@ -88,24 +101,27 @@ public class InventoryNotifier : MonoBehaviour
             currentNPCIndex++;
         }
 
-        // Reativar o áudio após a notificação, se a opção estiver habilitada
-        if (mutePlayerDuringNotification && playerAudioListener != null)
-        {
-            playerAudioListener.enabled = true;
-            AudioListener.volume = 1;
-        }
-
         // Limpar mensagens no chatbox se a opção estiver habilitada
         if (hideChatMessages && chatContent != null)
         {
             ClearChatMessages();
             interrogationController.SetNPCByIndex(0); // Volta ao primeiro NPC
         }
-
-        // Desbloquear o ChatBox se a opção estiver habilitada
-        if (hideChatBox && censorDialogCanvas != null)
+        }
+        finally
         {
-            censorDialogCanvas.SetActive(false);
+            // Restaura o áudio e a censura SEMPRE, mesmo se algo acima falhar
+            // ou for interrompido - senão o jogo fica sem som e sem o painel.
+            if (playerAudioListener != null)
+            {
+                playerAudioListener.enabled = true;
+            }
+            AudioListener.volume = 1;
+
+            if (censorDialogCanvas != null)
+            {
+                censorDialogCanvas.SetActive(false);
+            }
         }
     }
     

@@ -46,11 +46,29 @@ namespace Detective.Dialogue
         {
             if (Instance != null && Instance != this)
             {
-                Destroy(gameObject);
+                // Destroi apenas ESTE componente, nunca o GameObject inteiro:
+                // se alguem anexar o calibrador a um objeto que carrega outras
+                // coisas (ex: o GameController, que tem meia duzia de sistemas
+                // do jogo), destruir o objeto levaria tudo junto - e em
+                // silencio, porque duplicata e um caso "normal".
+                Debug.LogWarning($"[SessionLatencyCalibrator] Já existe um calibrador na cena " +
+                                 $"('{Instance.gameObject.name}'). O duplicado em '{gameObject.name}' " +
+                                 "foi removido. Mantenha apenas um, na cena do menu.");
+                Destroy(this);
                 return;
             }
 
             Instance = this;
+
+            // DontDestroyOnLoad só funciona em objetos de raiz - por isso o guia
+            // pede um GameObject vazio e dedicado, não um filho de outro objeto.
+            if (transform.parent != null)
+            {
+                Debug.LogWarning($"[SessionLatencyCalibrator] '{gameObject.name}' é filho de " +
+                                 $"'{transform.parent.name}'. Para sobreviver à troca de cena ele " +
+                                 "precisa estar na raiz da Hierarchy.");
+            }
+
             DontDestroyOnLoad(gameObject);
         }
 

@@ -12,6 +12,16 @@ Senhor Verde: "Ah, o Sr. Vargas... sempre um homem cheio de surpresas. Mas a fes
         <<jump SenhorVerdeConhecido>>
 ===
 
+title: SenhorVerdeEspecial
+position: -50,250
+---
+Senhor Verde: "Especial? Todo encontro é especial para quem sabe olhar. Vargas sabia olhar — talvez bem demais."
+    -> "Olhar para quem, exatamente?"
+        <<jump SenhorVerdeTroca>>
+    -> "Isso soa como uma confissão."
+        <<jump SenhorVerdeNadaAqui>>
+===
+
 title: SenhorVerdePretexto
 position: -200,250
 ---

@@ -94,8 +94,12 @@ public class FinalAccusation : MonoBehaviour
             }
         }
 
+        bool correct = gameController.IsAccusationCorrect(finalAccusation);
+        LogAccusation("Jogador", chosenPerson, chosenWeapon, chosenLocation, correct,
+                      guiltyPerson, guiltyWeapon, guiltyLocation);
+
         // Verifica se a acusação está correta
-        if (gameController.IsAccusationCorrect(finalAccusation))
+        if (correct)
         {
             ShowResultPanel("Você venceu!", guiltyPerson, guiltyWeapon, guiltyLocation);
         }
@@ -130,7 +134,11 @@ public class FinalAccusation : MonoBehaviour
             }
         }
 
-        if (gameController.IsAccusationCorrect(npcAccusation))
+        bool correct = gameController.IsAccusationCorrect(npcAccusation);
+        LogAccusation(Detective.Dialogue.SessionLogger.NomeNpc(npc), person, weapon, location, correct,
+                      guiltyPerson, guiltyWeapon, guiltyLocation);
+
+        if (correct)
         {
             // Se a acusação estiver correta, NPC vence
             ShowResultPanel($"{npc.GetComponent<ConvaiNPC>().characterName} fez a acusação correta e venceu o jogo!", guiltyPerson, guiltyWeapon, guiltyLocation);
@@ -144,6 +152,20 @@ public class FinalAccusation : MonoBehaviour
             Debug.LogWarning($"{npc.GetComponent<ConvaiNPC>().characterName} fez a acusação errada e perdeu!");
             //ShowResultPanel();
         }
+    }
+
+    // Log de sessão: acusação final (de quem, o que acusou, se acertou) e a
+    // solução do crime, para fechar o registro da partida.
+    private void LogAccusation(string author, Clue person, Clue weapon, Clue location, bool correct,
+                               string guiltyPerson, string guiltyWeapon, string guiltyLocation)
+    {
+        Detective.Dialogue.SessionLogger.Log("acusacao_final",
+            ("autor", author),
+            ("suspeito", Detective.Dialogue.SessionLogger.Carta(person)),
+            ("arma", Detective.Dialogue.SessionLogger.Carta(weapon)),
+            ("local", Detective.Dialogue.SessionLogger.Carta(location)),
+            ("correta", correct),
+            ("solucao", new[] { guiltyPerson, guiltyWeapon, guiltyLocation }));
     }
 
     // Função para exibir o painel de resultado

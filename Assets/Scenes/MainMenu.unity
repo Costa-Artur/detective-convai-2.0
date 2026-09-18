@@ -1328,51 +1328,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 708581188}
   m_CullTransparentMesh: 1
---- !u!1 &721680211
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 721680213}
-  - component: {fileID: 721680212}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &721680212
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 721680211}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea36803b45acfa449b0e31189a77b6d5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Detective.Dialogue.AzureConnectionTest
-  config: {fileID: 11400000, guid: 55400423d84be9e45b17ea8b852de37c, type: 2}
---- !u!4 &721680213
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 721680211}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 772.3015, y: 0, z: 1129.3375}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &782454684
 GameObject:
   m_ObjectHideFlags: 0
@@ -1906,52 +1861,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!1 &1136481273
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1136481275}
-  - component: {fileID: 1136481274}
-  m_Layer: 0
-  m_Name: teste_latencia
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1136481274
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1136481273}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da9fbd4310a160e488fe337512b09e0c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Detective.Dialogue.LatencySampler
-  config: {fileID: 11400000, guid: 55400423d84be9e45b17ea8b852de37c, type: 2}
-  sampleCount: 10
---- !u!4 &1136481275
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1136481273}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 580.3771, y: -4.69589, z: 1471.1625}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1179757298
 GameObject:
   m_ObjectHideFlags: 0
@@ -2240,83 +2149,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1215652064}
   m_CullTransparentMesh: 1
---- !u!1 &1257151016
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1257151019}
-  - component: {fileID: 1257151018}
-  - component: {fileID: 1257151017}
-  m_Layer: 0
-  m_Name: teste_api_contexto
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1257151017
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1257151016}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a523d75faf03f164f967141d7b27ffcb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Detective.Dialogue.DynamicNPCContextTest
-  controller: {fileID: 1257151018}
---- !u!114 &1257151018
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1257151016}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b07c3aee3834c4447b49c7365fe6350d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Detective.Dialogue.DynamicNPCController
-  config: {fileID: 11400000, guid: 55400423d84be9e45b17ea8b852de37c, type: 2}
-  fallbackPool: {fileID: 11400000, guid: c098aadcfb01b10439e68c0101f0c2fd, type: 2}
-  personaBackstory: "Voc\xEA \xE9 o Senhor Verde, um convidado da festa de anivers\xE1rio
-    na Mans\xE3o Monteiro, onde o anfitri\xE3o Sr. Veiga foi encontrado morto. Voc\xEA
-    \xE9 um homem calculista e desconfiado, que trata cada pergunta do detetive como
-    um risco: quanto menos voc\xEA disser, mais seguro se sente.\r\nTra\xE7os de
-    comportamento:\r\n- Voc\xEA nunca mente abertamente, mas tamb\xE9m nunca entrega
-    informa\xE7\xE3o de gra\xE7a. Prefere insinuar, desviar de assunto ou responder
-    com outra pergunta.\r\n- Voc\xEA s\xF3 cede informa\xE7\xE3o concreta quando
-    pressionado \u2014 ou seja, quando o jogador demonstra que j\xE1 sabe de algo
-    ou insiste diretamente pela segunda vez.\r\n- Voc\xEA trata o detetive com educa\xE7\xE3o
-    fria, quase ir\xF4nica, nunca com hostilidade expl\xEDcita.\r\n- Voc\xEA tem
-    interesse pessoal em n\xE3o ser o suspeito principal, ent\xE3o evita qualquer
-    coisa que o coloque perto da cena do crime.\r\nExemplo do que N\xC3O fazer: se
-    perguntado \"voc\xEA tem alguma pista?\", n\xE3o liste a pista inteira de uma
-    vez. Em vez disso, admita vagamente que \"viu algo\" e deixe o jogador puxar
-    mais."
-  clueCardNames:
-  - "Estatueta de bronze com a inscri\xE7\xE3o XZ-19"
---- !u!4 &1257151019
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1257151016}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 583.7957, y: 0.00002, z: 551.2472}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1268793779
 GameObject:
   m_ObjectHideFlags: 0
@@ -2859,6 +2691,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1496358300}
   m_CullTransparentMesh: 1
+--- !u!1 &1631391802
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1631391804}
+  - component: {fileID: 1631391803}
+  m_Layer: 0
+  m_Name: LatencyCalibrator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1631391803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1631391802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b40fa152669ea249a294792d497c4a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Detective.Dialogue.SessionLatencyCalibrator
+  config: {fileID: 11400000, guid: 55400423d84be9e45b17ea8b852de37c, type: 2}
+  probeCount: 4
+  fallbackRangeSeconds: {x: 1.2, y: 3}
+  alsoPersistToHistory: 1
+--- !u!4 &1631391804
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1631391802}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 74.0311, y: 0.00001, z: 2310.6162}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1646950728
 GameObject:
   m_ObjectHideFlags: 0
@@ -3774,6 +3654,4 @@ SceneRoots:
   - {fileID: 429144050}
   - {fileID: 1745548582}
   - {fileID: 1446250542}
-  - {fileID: 721680213}
-  - {fileID: 1257151019}
-  - {fileID: 1136481275}
+  - {fileID: 1631391804}

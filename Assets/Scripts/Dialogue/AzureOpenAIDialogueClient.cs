@@ -27,6 +27,11 @@ namespace Detective.Dialogue
         // delay artificial dos NPCs Yarn (mapa §5). Ver LatencySampleStore.cs.
         public event Action<float, bool> OnRequestCompleted;
 
+        // Conteudo exato devolvido pelo modelo na ultima chamada (o JSON do
+        // turno, antes do parse), para o log de sessao. Null se a chamada
+        // falhou antes de haver resposta.
+        public string LastRawContent { get; private set; }
+
         public AzureOpenAIDialogueClient(AzureOpenAIConfig config, string apiKey)
         {
             _config = config;
@@ -59,7 +64,9 @@ namespace Detective.Dialogue
                     response_format = BuildResponseFormat(_config.optionCount)
                 });
 
+            LastRawContent = null;
             string content = await PostAsync(_config.ChatCompletionsUrl, body);
+            LastRawContent = content;
 
             var parsed = JsonUtility.FromJson<DynamicTurnResult>(content);
 

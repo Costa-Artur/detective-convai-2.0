@@ -39,8 +39,24 @@ namespace Detective.Dialogue
                  "o raciocinio por completo, dependendo do modelo - testar se a qualidade cai.")]
         public string reasoningEffort = "low";
 
+        [Header("Contexto do mundo (igual para todos os NPCs)")]
+        [Tooltip("Cenário compartilhado, injetado no prompt de TODOS os personagens. Escrito uma " +
+                 "vez aqui em vez de repetido em cada persona - garante que o NPC dinâmico e os " +
+                 "roteirizados falem do mesmo mundo (mesmos nomes, mesmo crime).")]
+        [TextArea(3, 8)]
+        public string sharedSceneContext =
+            "Cenário: a Mansão Monteiro, durante uma festa. O anfitrião, Sr. Vargas, foi " +
+            "encontrado morto. Uma tempestade impede a polícia de chegar, então os próprios " +
+            "convidados precisam esclarecer o caso. Os convidados são: Coronel Amarelo, Chefe " +
+            "Branco, Doutora Azul, Professora Roxa, Senhor Verde e Senhorita Vermelho. " +
+            "O jogador é o detetive que interroga os convidados um a um.";
+
         [Header("Geração (calibrar na Fase 0 do mapa)")]
-        public int optionCount = 2;
+        [Tooltip("Número de opções por turno. PADRÃO DO PROJETO: 3 - precisa bater com a " +
+                 "quantidade de opções dos nós .yarn, senão o NPC dinâmico se denuncia pela " +
+                 "contagem. Também precisa haver pelo menos esta quantidade de botões na " +
+                 "UnifiedDialogueUI. Ver docs/arquitetura-npc-dinamico.md §2.2.")]
+        public int optionCount = 3;
         public int maxTurns = 5;
         public int maxChars = 220;
         [Tooltip("Usado como max_tokens (modelo nao-reasoning) ou max_completion_tokens (reasoning).")]
