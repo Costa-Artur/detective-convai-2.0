@@ -1,149 +1,168 @@
 title: SenhorVerdeInicio
-tags:
-position: -150,100
+tags: gerado_ia
+position: 0,200
 ---
-Detetive: "Por que você estava na festa do Sr. Vargas?"
-Senhor Verde: "Ah, o Sr. Vargas... sempre um homem cheio de surpresas. Mas a festa era apenas um pretexto, não acha?"
-    -> "Um pretexto para o quê?"
-        <<jump SenhorVerdePretexto>>
-    -> "Havia algo especial entre vocês?"
-        <<jump SenhorVerdeEspecial>>
-    -> "Você o conhecia bem?"
-        <<jump SenhorVerdeConhecido>>
+// Gerado por IA (gpt-5.6-luna, reasoning_effort=medium), amostra 1. Revisar e editar a mao - ver tools/dialogos/README.md
+Senhor Verde: Aproxime-se, detetive. Um enigma bem conduzido é quase uma dança; só não confunda curiosidade com direção.
+    -> Que relação o senhor tinha com o Sr. Vargas?
+        <<jump SenhorVerdeVitima>>
+    -> O que o senhor fez durante a festa?
+        <<jump SenhorVerdeNoite>>
+    -> O que pensa dos outros convidados?
+        <<jump SenhorVerdeConvidados>>
 ===
 
-title: SenhorVerdeEspecial
-position: -50,250
+title: SenhorVerdeVitima
+tags: gerado_ia
+position: 0,400
 ---
-Senhor Verde: "Especial? Todo encontro é especial para quem sabe olhar. Vargas sabia olhar — talvez bem demais."
-    -> "Olhar para quem, exatamente?"
-        <<jump SenhorVerdeTroca>>
-    -> "Isso soa como uma confissão."
-        <<jump SenhorVerdeNadaAqui>>
-===
-
-title: SenhorVerdePretexto
-position: -200,250
----
-Senhor Verde: "As festas sempre têm um propósito oculto. Vargas sabia como atrair as pessoas para seu círculo."
-    -> "E você era uma dessas pessoas?"
-        <<jump SenhorVerdeEraUmaPessa>>
-    -> "O que mais ele poderia querer?"
-        <<jump SenhorVerdeNadaAqui>>
-===
-
-title: SenhorVerdeEraUmaPessa
-position: 0,300
----
-Senhor Verde: "Quem pode dizer? É fácil se perder em uma dança quando a música é tão envolvente."
-    -> "Dança? Isso soa íntimo." 
-        <<jump SenhorVerdeIntimo>>
-    -> "E a música é sempre doce, não?" 
-        <<jump SenhorVerdeNadaAqui>>
-===
-
-title: SenhorVerdeIntimo
-position: 100,250
----
-Senhor Verde: "Intimidade é um conceito interessante. O que é um passo de dança senão uma troca de energia?"
-    -> "Uma troca que pode dizer muito." 
-        <<jump SenhorVerdeTroca>>
-    -> "E você dançava frequentemente?" 
-        <<jump SenhorVerdeNadaAqui>>
-===
-
-title: SenhorVerdeTroca
-position: 200,400
----
-Senhor Verde: "Dançamos e trocamos confidências. Mas quem sou eu para expor os segredos de Vargas?"
-    -> "Segredos? Isso soa intrigante." 
-        <<jump SenhorVerdeIntrigante>>
-    -> "Você se preocupava com ele?" 
-        <<jump SenhorVerdeNadaAqui>>
-===
-
-title: SenhorVerdeIntrigante
-position: 300,300
----
-Senhor Verde: "Intrigante, sim, mas a curiosidade pode ser uma armadilha. Vargas tinha muitos aspectos que ele mantinha ocultos."
-    -> "Quais aspectos?" 
-        <<jump SenhorVerdeAspectos>>
-    -> "E você estava ciente disso?" 
-        <<jump SenhorVerdeNadaAqui>>
-===
-
-title: SenhorVerdeAspectos
-position: 400,250
----
-Senhor Verde: "Vargas era um homem complexo. Às vezes, eu sentia que conhecia cada nuance dele, outras vezes, ele era um completo mistério."
-    -> "E você preferia o mistério?" 
-        <<jump SenhorVerdePreferiaMistério>>
-    -> "Então você sentia que havia mais entre vocês?" 
-        <<jump SenhorVerdeNadaAqui>>
-===
-
-title: SenhorVerdePreferiaMistério
-position: 500,250
----
-Senhor Verde: "Mistério mantém as coisas interessantes. A vida é muito curta para não saborear o enigma."
-    -> "E esse enigma poderia esconder algo perigoso?" 
-        <<jump SenhorVerdePerigoso>>
-    -> "A vida é cheia de surpresas, não é? Onde vocês costumavam 'dançar'?" 
-        <<reveal "Convai NPC Senhor Verde" "local">> // Revela carta de Arma
-===
-
-title: SenhorVerdePerigoso
-position: 600,300
----
-Senhor Verde: "Perigosos? Às vezes, a verdadeira ameaça é o que não é revelado. Vargas era um jogador, e eu sempre fui um especialista em jogar com as cartas."
-    -> "E se ele tivesse uma arma?" 
-        <<reveal "Convai NPC Senhor Verde" "arma do crime">> // Revela carta de Arma
-    -> "Você não parecia ter medo dele." 
-        <<jump SenhorVerdeNadaAqui>>
-===
-
-title: SenhorVerdeConhecido
-position: 700,250
----
-Senhor Verde: "Conhecido? Conhecer alguém é apenas a ponta do iceberg. O que realmente sabemos um do outro?"
-    -> "Um ponto de vista interessante." 
-        <<jump SenhorVerdePontoInteresante>>
-    -> "Você sentiu que realmente o conhecia?" 
-        <<jump SenhorVerdeNadaAqui>>
-===
-
-title: SenhorVerdePontoInteresante
-position: 800,300
----
-Senhor Verde: "Um jogo de máscaras. Todos nós usamos uma, e algumas vezes, a mais próxima é a mais difícil de tirar."
-    -> "E a máscara de Vargas era segura?" 
-        <<jump SenhorVerdeMascaraSegura>>
-    -> "Você está se referindo a algo em particular?" 
-        <<jump SenhorVerdeNadaAqui>>
-===
-
-title: SenhorVerdeMascaraSegura
-position: 900,350
----
-Senhor Verde: "Segura, mas todos os segredos têm seu preço. Você está disposto a pagá-lo?"
-    -> "Isso significa que você tem segredos também?" 
+Senhor Verde: Vargas e eu dançamos no início, e algumas verdades trocaram de par. Eu conhecia acordes dele que não foram feitos para ouvidos alheios.
+    -> Obrigado. Vou continuar minha investigação.
+        <<jump SenhorVerdeEncerrar>>
+    -> O senhor tinha algum motivo contra Vargas?
+        <<jump SenhorVerdeMotivo>>
+    -> Que segredos Vargas guardava?
         <<jump SenhorVerdeSegredos>>
-    -> "Qual seria o preço?" 
-        <<jump SenhorVerdeNadaAqui>>
+===
+
+title: SenhorVerdeNoite
+tags: gerado_ia
+position: 300,400
+---
+Senhor Verde: A festa tinha música demais e confiança de menos. Eu estava sereno, embora certas notas parecessem anunciar que a noite esconderia um compasso.
+    -> Onde exatamente o senhor estava quando ocorreu o crime?
+        <<jump SenhorVerdeAlibi>>
+    -> Notou algo estranho em algum cômodo?
+        <<jump SenhorVerdeLocais>>
+    -> Agradeço. Vou interrogar outra pessoa.
+        <<jump SenhorVerdeEncerrar>>
+===
+
+title: SenhorVerdeConvidados
+tags: gerado_ia
+position: 600,400
+---
+Senhor Verde: Há quem esconda cartas na manga e quem esconda a própria manga. Entre tantos sorrisos, alguns parecem ensaiados para uma dança perigosa.
+    -> De quem o senhor desconfia?
+        <<jump SenhorVerdeSuspeita>>
+    -> Obrigado por falar comigo. Vou prosseguir.
+        <<jump SenhorVerdeEncerrar>>
+    -> Vargas tinha segredos com algum convidado?
+        <<jump SenhorVerdeSegredos>>
+===
+
+title: SenhorVerdeMotivo
+tags: gerado_ia
+position: 0,600
+---
+Senhor Verde: Motivos são máscaras que servem a qualquer rosto; até a ternura pode parecer culpa sob a luz errada. Sei apenas que uma arma mudou de lugar durante a festa.
+    -> Conte o que sabe sobre essa arma.
+        <<jump SenhorVerdeRevelaArma>>
+    -> O senhor está escondendo alguma coisa.
+        <<jump SenhorVerdePressao>>
+    -> Isso basta. Vou me retirar.
+        <<jump SenhorVerdeEncerrar>>
 ===
 
 title: SenhorVerdeSegredos
-position: 1000,300
+tags: gerado_ia
+position: 300,600
 ---
-Senhor Verde: "Segredos são como cartas. Algumas são melhores deixadas no baralho. Mas, se você realmente quiser saber..."
-    -> "O que você tem para me mostrar?" 
-        <<reveal "Convai NPC Senhor Verde" "suspeito">> // Revela carta de Suspeito
-    -> "Talvez eu não queira saber." 
-        <<jump SenhorVerdeNadaAqui>>
+Senhor Verde: Vargas colecionava confidências como quem guarda melodias inacabadas. Uma pessoa nesta festa conhecia parte de uma delas; quem sou eu para expor os segredos dele?
+    -> Não precisa continuar. Vou seguir adiante.
+        <<jump SenhorVerdeEncerrar>>
+    -> Diga o que sabe sobre essa pessoa.
+        <<jump SenhorVerdeRevelaSuspeito>>
+    -> O senhor sabe mais do que está dizendo.
+        <<jump SenhorVerdePressao>>
 ===
 
-title: SenhorVerdeNadaAqui
-position: 1100,100
+title: SenhorVerdeAlibi
+tags: gerado_ia
+position: 600,600
 ---
-Detetive: "Entendo, vamos seguir adiante."
+Senhor Verde: Primeiro estive na Sala de Música, tocando piano; a Senhorita Vermelho esteve lá por parte do tempo e nos vimos. Depois fui ao Salão de Jogos reorganizar peças. Notei algo fora do lugar num cômodo.
+    -> O que o senhor viu nesse cômodo?
+        <<jump SenhorVerdeRevelaLocal>>
+    -> Seu álibi parece conveniente demais.
+        <<jump SenhorVerdePressao>>
+    -> Obrigado. Já tenho o suficiente por enquanto.
+        <<jump SenhorVerdeEncerrar>>
+===
+
+title: SenhorVerdeLocais
+tags: gerado_ia
+position: 900,600
+---
+Senhor Verde: A mansão guarda ecos até nas paredes quietas. Há um cômodo que prefiro não transformar em palco; certas portas rangem quando a curiosidade as força.
+    -> Diga o que viu nesse cômodo.
+        <<jump SenhorVerdeRevelaLocal>>
+    -> Sua hesitação sugere que esconde algo.
+        <<jump SenhorVerdePressao>>
+    -> Entendo. Vou continuar sem insistir.
+        <<jump SenhorVerdeEncerrar>>
+===
+
+title: SenhorVerdeSuspeita
+tags: gerado_ia
+position: 1200,600
+---
+Senhor Verde: Desconfiança não é sentença; é apenas uma dissonância no ouvido. Há alguém cuja calma parece ter aprendido a esconder o próprio ritmo.
+    -> Mostre o que sustenta essa desconfiança.
+        <<jump SenhorVerdeRevelaSuspeito>>
+    -> Está bem. Vou prosseguir com outros depoimentos.
+        <<jump SenhorVerdeEncerrar>>
+    -> Essa desconfiança é só uma forma de desviar a atenção.
+        <<jump SenhorVerdePressao>>
+===
+
+title: SenhorVerdePressao
+tags: gerado_ia
+position: 0,800
+---
+Senhor Verde: Insistência é uma corda apertada: pode arrancar uma nota ou quebrar o instrumento. Talvez eu ceda, se o senhor souber distinguir revelação de armadilha.
+    -> Pela última vez: mostre o que sabe.
+        <<jump SenhorVerdeRevelaArma>>
+    -> O senhor é o culpado, Senhor Verde.
+        <<jump SenhorVerdeRecusa>>
+    -> Não vou arrancar mais nada de si. Até logo.
+        <<jump SenhorVerdeEncerrar>>
+===
+
+title: SenhorVerdeRevelaSuspeito
+tags: gerado_ia
+position: 300,800
+---
+<<reveal "Convai NPC Senhor Verde" "suspeito">>
+Senhor Verde: Muito bem, detetive; saboreie o enigma sem deixar que ele o saboreie primeiro. Eu lhe entrego isto, e o restante pertence à sua dança.
+===
+
+title: SenhorVerdeRevelaArma
+tags: gerado_ia
+position: 600,800
+---
+<<reveal "Convai NPC Senhor Verde" "arma do crime">>
+Senhor Verde: A curiosidade venceu este compasso. Eu lhe entrego isto; use o conhecimento com elegância, pois toda descoberta cobra seu preço.
+===
+
+title: SenhorVerdeRevelaLocal
+tags: gerado_ia
+position: 900,800
+---
+<<reveal "Convai NPC Senhor Verde" "local">>
+Senhor Verde: Que seja, então. Eu lhe mostro isto: talvez o silêncio daquele lugar diga mais do que minha língua ousaria dizer.
+===
+
+title: SenhorVerdeRecusa
+tags: gerado_ia
+position: 0,1000
+---
+Senhor Verde: Uma acusação direta é um passo brusco, e eu não danço ao som da grosseria. Procure suas respostas em outro salão.
+===
+
+title: SenhorVerdeEncerrar
+tags: gerado_ia
+position: 1500,600
+---
+Senhor Verde: Foi um prazer acompanhar este compasso, detetive. Que sua próxima pergunta encontre uma resposta menos tímida.
 ===

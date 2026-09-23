@@ -63,6 +63,23 @@ namespace Detective.Dialogue
         // origem e um arquivo .yarn ou o modelo de linguagem.
         public void OpenConversation(IDialogueSource source)
         {
+            // Encerra a conversa anterior antes de abrir outra. Sem isto a
+            // origem anterior continua ligada a esta interface: os NPCs
+            // roteirizados compartilham o mesmo DialogueRunner, entao a fala do
+            // NPC novo chegava tambem pela origem antiga - com o NOME do NPC
+            // antigo - e a tela mostrava o que chegasse por ultimo.
+            if (_revealRoutine != null)
+            {
+                StopCoroutine(_revealRoutine);
+                _revealRoutine = null;
+            }
+            if (_source != null)
+            {
+                SessionLogger.Log("conversa_encerrada", ("npc", _source.SpeakerName), ("origem", SourceKind),
+                                  ("motivo", "outro NPC aberto"));
+                _source.End();
+            }
+
             _source = source;
 
             if (panelRoot != null)
@@ -139,6 +156,14 @@ namespace Detective.Dialogue
             if (_source != null && _source.NeedsArtificialDelay)
                 delay = GetCalibratedDelaySeconds();
 
+            // Mesma forma de texto para as duas origens: os .yarn antigos poem
+            // aspas retas em volta das falas e o modelo as vezes devolve aspas
+            // curvas nas opcoes. Diferenca de pontuacao tambem denuncia.
+            turn.line = StripWrappingQuotes(turn.line);
+            if (turn.options != null)
+                for (int i = 0; i < turn.options.Length; i++)
+                    turn.options[i] = StripWrappingQuotes(turn.options[i]);
+
             _shownOptions = turn.isEnd || turn.options == null ? System.Array.Empty<string>() : turn.options;
             SessionLogger.Log("turno_exibido",
                 ("npc", turn.speakerName),
@@ -159,6 +184,19 @@ namespace Detective.Dialogue
 
             _revealRoutine = null;
             RenderTurn(turn);
+        }
+
+        private static readonly char[] Quotes = { '"', '\u201C', '\u201D', '\u00AB', '\u00BB', '\'' };
+
+        private static string StripWrappingQuotes(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return text;
+            string t = text.Trim();
+            while (t.Length >= 2 && System.Array.IndexOf(Quotes, t[0]) >= 0 &&
+                   System.Array.IndexOf(Quotes, t[t.Length - 1]) >= 0)
+                t = t.Substring(1, t.Length - 2).Trim();
+            return t;
         }
 
         private static float GetCalibratedDelaySeconds()

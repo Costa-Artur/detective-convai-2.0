@@ -56,6 +56,11 @@ public class GameController : MonoBehaviour
 
         LogDealtCards();
 
+        // As cartas do jogador já entram marcadas no bloco de notas.
+        PlayerCheckClues playerClues = GetComponent<PlayerCheckClues>();
+        if (playerClues != null)
+            playerClues.MarkPlayerCards();
+
         //Informa NPCs do Inventário (caminho legado da Convai - ver tooltip do campo)
         if(NotifyNpcsOfInventory)
         {

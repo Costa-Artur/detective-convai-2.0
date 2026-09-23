@@ -1,111 +1,168 @@
 title: SenhoritaVermelhoInicio
-tags:
-position: -200,100
+tags: gerado_ia
+position: 0,200
 ---
-Detetive: "Senhorita Vermelho, você parecia estar sempre de olho no Sr. Vargas."
-Senhorita Vermelho: "Observar é minha profissão. E ele... um personagem intrigante."
-    -> "O que o tornava tão intrigante?"
-        <<jump SenhoritaVermelhoIntrigante>>
-    -> "Você tem segredos dele?"
-        <<jump SenhoritaVermelhoSegredos>>
-    -> "Era só curiosidade profissional?"
-        <<jump SenhoritaVermelhoCuriosidade>>
+// Gerado por IA (gpt-5.6-luna, reasoning_effort=medium), amostra 3. Revisar e editar a mao - ver tools/dialogos/README.md
+Senhorita Vermelho: Pode perguntar. Eu observo, registro e não enfeito. Todo mundo aqui guarda algo. Eu só anoto o que é dos outros.
+    -> O que acha dos outros convidados?
+        <<jump SenhoritaVermelhoConvidados>>
+    -> Qual era sua relação com o Sr. Vargas?
+        <<jump SenhoritaVermelhoVitima>>
+    -> O que você fez durante a festa?
+        <<jump SenhoritaVermelhoNoite>>
 ===
 
-title: SenhoritaVermelhoIntrigante
-position: -250,250
+title: SenhoritaVermelhoVitima
+tags: gerado_ia
+position: 0,400
 ---
-Senhorita Vermelho: "Ele mantinha o público entretido. Mas sempre com algo escondido."
-    -> "Algo que valia a pena investigar?"
-        <<jump SenhoritaVermelhoInvestigar>>
-    -> "Você encontrou algo suspeito?"
-        <<jump SenhoritaVermelhoNadaAqui>>
+Senhorita Vermelho: Eu acompanhava os negócios dele. Os discretos, principalmente. Vargas escondia bem, mas sempre havia algo deslocado.
+    -> Você tinha algum motivo contra o Sr. Vargas?
+        <<jump SenhoritaVermelhoMotivo>>
+    -> Agradeço. Vou falar com outra pessoa.
+        <<jump SenhoritaVermelhoEncerrar>>
+    -> Que segredos o Sr. Vargas guardava?
+        <<jump SenhoritaVermelhoSegredos>>
+===
+
+title: SenhoritaVermelhoNoite
+tags: gerado_ia
+position: 300,400
+---
+Senhorita Vermelho: A festa parecia organizada demais. Eu estava atenta, não tranquila. Havia ruído suficiente para esconder muita coisa.
+    -> Notou algo estranho em algum cômodo?
+        <<jump SenhoritaVermelhoLocais>>
+    -> Onde exatamente você estava quando o crime aconteceu?
+        <<jump SenhoritaVermelhoAlibi>>
+    -> Entendi. Não vou tomar mais seu tempo.
+        <<jump SenhoritaVermelhoEncerrar>>
+===
+
+title: SenhoritaVermelhoConvidados
+tags: gerado_ia
+position: 600,400
+---
+Senhorita Vermelho: Há cautela demais entre eles. Uns escondem intenção. Outros escondem medo. Não separo os dois sem anotar mais.
+    -> Vargas tinha segredos com algum convidado?
+        <<jump SenhoritaVermelhoSegredos>>
+    -> De quem você desconfia?
+        <<jump SenhoritaVermelhoSuspeita>>
+    -> Obrigado. Vou prosseguir com o interrogatório.
+        <<jump SenhoritaVermelhoEncerrar>>
+===
+
+title: SenhoritaVermelhoMotivo
+tags: gerado_ia
+position: 0,600
+---
+Senhorita Vermelho: Observar Vargas não é querer sua morte. Eu tinha informações, não rancor. E armas fazem barulho; ele sabia manter o silêncio. Tinha poder para isso.
+    -> Conte o que sabe sobre essa arma.
+        <<jump SenhoritaVermelhoRevelaArma>>
+    -> Certo. Vou deixar isso de lado por enquanto.
+        <<jump SenhoritaVermelhoEncerrar>>
+    -> Você está escondendo alguma coisa.
+        <<jump SenhoritaVermelhoPressao>>
 ===
 
 title: SenhoritaVermelhoSegredos
-position: -300,400
+tags: gerado_ia
+position: 300,600
 ---
-Senhorita Vermelho: "Todo mundo tem segredos, detetive. Eu só observo e registro."
-    -> "Você sabia de algo comprometedor?"
-        <<jump SenhoritaVermelhoComprometedor>>
-    -> "Ou talvez você quisesse manter algo oculto?"
-        <<jump SenhoritaVermelhoNadaAqui>>
+Senhorita Vermelho: Vargas lidava com lugares discretos e acordos pouco limpos. Não sei tudo. Mas sei que uma pessoa nesta festa conhecia uma parte importante.
+    -> O que você sabe sobre essa pessoa?
+        <<jump SenhoritaVermelhoRevelaSuspeito>>
+    -> Você sabe mais do que está dizendo.
+        <<jump SenhoritaVermelhoPressao>>
+    -> Entendido. Não precisa continuar.
+        <<jump SenhoritaVermelhoEncerrar>>
 ===
 
-title: SenhoritaVermelhoCuriosidade
-position: -350,500
+title: SenhoritaVermelhoAlibi
+tags: gerado_ia
+position: 600,600
 ---
-Senhorita Vermelho: "Curiosidade é minha ferramenta. Mas eu também sabia... quando alguém estava em perigo."
-    -> "Perigo? Isso envolve armas?"
-        <<jump SenhoritaVermelhoArmas>>
-    -> "Perigo para você ou para ele?"
-        <<jump SenhoritaVermelhoNadaAqui>>
+Senhorita Vermelho: Primeiro, fiquei no Salão de Festas, anotando o que estava fora do lugar. Depois fui à Sala de Música e vi o Senhor Verde tocar piano por parte do tempo. Também notei algo deslocado em um cômodo.
+    -> Está bem. Vou verificar as outras versões.
+        <<jump SenhoritaVermelhoEncerrar>>
+    -> O que você notou nesse cômodo?
+        <<jump SenhoritaVermelhoRevelaLocal>>
+    -> Seu álibi deixa pontos sem confirmação.
+        <<jump SenhoritaVermelhoPressao>>
 ===
 
-title: SenhoritaVermelhoInvestigar
-position: 100,250
+title: SenhoritaVermelhoLocais
+tags: gerado_ia
+position: 900,600
 ---
-Senhorita Vermelho: "Ele tinha negócios que o conectavam a lugares discretos... demais até."
-    -> "Como esta mansão?"
-        <<reveal "Convai NPC Senhorita Vermelho" "local">> // Revela carta de Local
-    -> "Ou outros lugares fora daqui?"
-        <<jump SenhoritaVermelhoNadaAqui>>
+Senhorita Vermelho: A mansão tem cômodos demais para uma festa simples. Registrei uma irregularidade em um deles. Hesito porque ainda não sei o peso disso.
+    -> Diga o que viu nesse cômodo.
+        <<jump SenhoritaVermelhoRevelaLocal>>
+    -> Obrigado. Pode encerrar por aqui.
+        <<jump SenhoritaVermelhoEncerrar>>
+    -> Essa hesitação parece esconder algo.
+        <<jump SenhoritaVermelhoPressao>>
 ===
 
-title: SenhoritaVermelhoComprometedor
-position: 200,500
+title: SenhoritaVermelhoSuspeita
+tags: gerado_ia
+position: 1200,600
 ---
-Senhorita Vermelho: "Algo sempre parecia fora do lugar. Mas ele sabia esconder muito bem."
-    -> "Talvez uma arma seja parte disso?"
-        <<jump SenhoritaVermelhoComprometedorArma>>
-    -> "Você acha que alguém queria silenciá-lo?"
-        <<jump SenhoritaVermelhoNadaAqui>>
+Senhorita Vermelho: Desconfiança não é acusação. É um registro incompleto. Há alguém cuja versão depende de detalhes que não fecham.
+    -> Essa desconfiança serve para desviar a atenção.
+        <<jump SenhoritaVermelhoPressao>>
+    -> Certo. Vou ouvir os demais convidados.
+        <<jump SenhoritaVermelhoEncerrar>>
+    -> Mostre o que sustenta essa desconfiança.
+        <<jump SenhoritaVermelhoRevelaSuspeito>>
 ===
 
-title: SenhoritaVermelhoComprometedorArma
-position: 300,100
+title: SenhoritaVermelhoPressao
+tags: gerado_ia
+position: 0,800
 ---
-Senhorita Vermelho: "Armas fazem barulho, detetive. E ele sabia como manter o silêncio."
-    -> "Silêncio, mas até quando?"
-        <<reveal "Convai NPC Senhorita Vermelho" "arma do crime">> // Revela carta de Arma
-    -> "E talvez esse silêncio seja o seu fim."
-        <<jump SenhoritaVermelhoNadaAqui>>
+Senhorita Vermelho: Eu não escondo por gosto. Informação mal colocada perde valor. Mas posso ceder, se você parar de tratar observação como culpa.
+    -> Pela última vez: mostre o que você sabe.
+        <<jump SenhoritaVermelhoRevelaArma>>
+    -> Você está diretamente envolvida.
+        <<jump SenhoritaVermelhoRecusa>>
+    -> Então encerramos esta conversa.
+        <<jump SenhoritaVermelhoEncerrar>>
 ===
 
-title: SenhoritaVermelhoArmas
-position: 400,250
+title: SenhoritaVermelhoRevelaSuspeito
+tags: gerado_ia
+position: 300,800
 ---
-Senhorita Vermelho: "Armas... só uma forma de poder para alguns. E ele tinha muitas."
-    -> "Você sabe onde ele guardava alguma?"
-        <<jump SenhoritaVermelhoNadaAqui>>
-    -> "Alguma dessas armas era pessoal?"
-        <<reveal "Convai NPC Senhorita Vermelho" "arma do crime">> // Revela carta de Arma
+<<reveal "Convai NPC Senhorita Vermelho" "suspeito">>
+Senhorita Vermelho: Está bem. Eu guardei isto para não distorcer o que observei. Mostro o registro. Agora você tem algo concreto.
 ===
 
-title: SenhoritaVermelhoNadaAqui
-position: -150,500
+title: SenhoritaVermelhoRevelaArma
+tags: gerado_ia
+position: 600,800
 ---
-Detetive: "Entendo, Senhorita Vermelho. Vamos seguir adiante."
+<<reveal "Convai NPC Senhorita Vermelho" "arma do crime">>
+Senhorita Vermelho: Chega de rodeios. Mostro o registro que mantive sobre isso. O restante cabe à sua investigação.
 ===
 
-title: SenhoritaVermelhoNadaAqui2
-position: -250,500
+title: SenhoritaVermelhoRevelaLocal
+tags: gerado_ia
+position: 900,800
 ---
-Detetive: "Interessante, mas ainda não há algo sólido."
+<<reveal "Convai NPC Senhorita Vermelho" "local">>
+Senhorita Vermelho: Eu anotei o que estava deslocado. Entrego o registro. Examine o lugar por conta própria.
 ===
 
-title: SenhoritaVermelhoSuspeitos
-position: 450,500
+title: SenhoritaVermelhoRecusa
+tags: gerado_ia
+position: 0,1000
 ---
-Senhorita Vermelho: "O Sr. Verde, talvez? Ou a Senhorita Azul... todos com seus próprios motivos."
-    -> "E você acha que alguém está encobrindo algo?"
-        <<reveal "Convai NPC Senhorita Vermelho" "suspeito">> // Revela carta de Suspeito
-    -> "Parece que há mais nisso."
-        <<jump SenhoritaVermelhoNadaAqui2>>
+Senhorita Vermelho: Não aceito uma acusação no lugar de perguntas. Não vou continuar.
 ===
 
-title: SenhoritaVermelhoNadaAqui3
-position: -150,600
+title: SenhoritaVermelhoEncerrar
+tags: gerado_ia
+position: 1500,600
 ---
-Detetive: "Vamos mudar de assunto, então."
+Senhorita Vermelho: Anote o que ouviu. Eu já disse o que podia. Procure os outros.
 ===

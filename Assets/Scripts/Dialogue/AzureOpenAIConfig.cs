@@ -59,8 +59,11 @@ namespace Detective.Dialogue
         public int optionCount = 3;
         public int maxTurns = 5;
         public int maxChars = 220;
-        [Tooltip("Usado como max_tokens (modelo nao-reasoning) ou max_completion_tokens (reasoning).")]
-        public int maxTokens = 300;
+        [Tooltip("Usado como max_tokens (modelo nao-reasoning) ou max_completion_tokens (reasoning). " +
+                 "ATENCAO: em modelos de raciocinio este limite inclui os tokens de RACIOCINIO, que nao " +
+                 "aparecem na resposta. Com 300, o modelo gastava tudo pensando e devolvia conteudo vazio " +
+                 "(sessao de 20 set). Deixe folga: 3000.")]
+        public int maxTokens = 3000;
         [Range(0f, 2f)] public float temperature = 0.8f;
         public float timeoutSeconds = 20f;
 

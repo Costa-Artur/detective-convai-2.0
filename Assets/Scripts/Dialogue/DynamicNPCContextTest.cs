@@ -31,6 +31,10 @@ namespace Detective.Dialogue
                 return;
             }
 
+            // O controlador repete turnos ja vistos (conversa revisitada); o
+            // teste precisa de respostas novas do modelo a cada execucao.
+            controller.ClearTurnCache();
+
             Debug.Log("[DynamicNPCContextTest] ── Turno 1: abertura espontânea (valida a persona) ──");
             DynamicTurnResult turn1 = await controller.StartConversation();
             LogTurn(1, turn1);

@@ -40,11 +40,21 @@ namespace Detective.Dialogue
                 ? closingLine
                 : genericLines[Random.Range(0, genericLines.Count)];
 
+            // As opcoes genericas ("voltamos a isso depois"...) sao saidas: se o
+            // jogador escolher uma, o turno seguinte e uma despedida, como no
+            // no Encerrar dos roteirizados.
+            var roles = new string[genericOptions.Count];
+            for (int i = 0; i < roles.Length; i++)
+                roles[i] = OptionRoles.Saida;
+
             return new DynamicTurnResult
             {
                 fala = line,
                 opcoes = genericOptions.ToArray(),
-                encerrar = forceClose
+                papeis_opcoes = roles,
+                encerrar = forceClose,
+                revelar_pista = "",
+                carta_alvo = ""
             };
         }
     }

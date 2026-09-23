@@ -1,89 +1,168 @@
-﻿title: CoronelAmareloInicio
-tags:
-position: -200,100
+title: CoronelAmareloInicio
+tags: gerado_ia
+position: 0,200
 ---
-Detetive: "O que você e o Sr. Vargas discutiram antes de sua morte?"
-Coronel Amarelo: "Conversas entre homens de influência, detetive. Assuntos que não costumam interessar à polícia... até que algo dá errado."
-    -> "Vocês discutiram sobre dinheiro?" 
-        <<jump CoronelAmareloDinheiro>>
-    -> "Vocês mencionaram armas?" 
-        <<jump CoronelAmareloArmas>>
-    -> "Qual foi o verdadeiro motivo da visita?" 
+// Gerado por IA (gpt-5.6-luna, reasoning_effort=medium), amostra 3. Revisar e editar a mao - ver tools/dialogos/README.md
+Coronel Amarelo: Entre, detetive. Minha honra não teme perguntas, mas não tolera jogos sem propósito. Diga o que busca, e veremos o que merece saber.
+    -> O que pensa dos demais convidados?
+        <<jump CoronelAmareloConvidados>>
+    -> Qual era sua relação com o Sr. Vargas?
+        <<jump CoronelAmareloVitima>>
+    -> O que o senhor fez durante a festa?
+        <<jump CoronelAmareloNoite>>
+===
+
+title: CoronelAmareloVitima
+tags: gerado_ia
+position: 0,400
+---
+Coronel Amarelo: Vargas e eu mantínhamos negócios mal resolvidos. Havia respeito entre nós, embora certas dívidas pesassem mais que ouro e algumas conversas jamais terminassem.
+    -> Que segredos Vargas guardava?
+        <<jump CoronelAmareloSegredos>>
+    -> Agradeço. Vou falar com os outros convidados.
+        <<jump CoronelAmareloEncerrar>>
+    -> O senhor tinha um motivo contra Vargas?
         <<jump CoronelAmareloMotivo>>
 ===
 
-title: CoronelAmareloDinheiro
-position: -250,250
+title: CoronelAmareloNoite
+tags: gerado_ia
+position: 300,400
 ---
-Coronel Amarelo: "Dinheiro sempre é parte das conversas com alguém como Vargas. Ele gostava de lembrar que sabia como controlá-lo."
-    -> "Controlar você, talvez?" 
-        <<reveal "Convai NPC Coronel Amarelo" "local">> // Revela carta de Local
-    -> "E você o respeitava por isso?" 
-        <<jump CoronelAmareloRespeito>>
+Coronel Amarelo: A festa tinha o brilho falso de um campo antes da batalha. Eu estava atento, detetive; havia tensão no ar, como pólvora à espera de uma faísca.
+    -> Onde exatamente o senhor estava quando ocorreu o crime?
+        <<jump CoronelAmareloAlibi>>
+    -> Notou algo estranho em algum cômodo?
+        <<jump CoronelAmareloLocais>>
+    -> Obrigado. Prosseguirei com os demais.
+        <<jump CoronelAmareloEncerrar>>
 ===
 
-title: CoronelAmareloRespeito
-position: -300,400
+title: CoronelAmareloConvidados
+tags: gerado_ia
+position: 600,400
 ---
-Coronel Amarelo: "Respeito... é uma palavra forte. Vamos dizer que eu reconhecia seu jogo, mas jogava as minhas próprias cartas."
-    -> "Que cartas, coronel?" 
-        <<jump CoronelAmareloNadaAqui>>
-    -> "Entendo. Continuando..." 
-        <<jump CoronelAmareloNadaAqui>>
-===
-
-title: CoronelAmareloArmas
-position: 100,250
----
-Coronel Amarelo: "Armas? Vargas e eu temos visões diferentes sobre elas. Para mim, uma arma é mais do que uma peça de metal. É uma questão de honra."
-    -> "A honra às vezes leva a atos extremos?" 
-        <<jump CoronelAmareloHonra>>
-    -> "Então você tem uma arma com você?" 
-        <<reveal "Convai NPC Coronel Amarelo" "arma do crime">> // Revela carta de Arma
-===
-
-title: CoronelAmareloHonra
-position: 200,500
----
-Coronel Amarelo: "Honra... você parece insinuar que ela pode ser negociada. Prefiro não responder."
-    -> "Interessante, coronel." 
-        <<jump CoronelAmareloNadaAqui>>
-    -> "Certamente, ninguém questionaria sua integridade." 
-        <<jump CoronelAmareloNadaAqui>>
+Coronel Amarelo: Vejo gente elegante demais para estar tranquila. Alguns aqui têm mais a esconder do que gostariam de admitir, e o silêncio de certos convivas vale uma fortuna.
+    -> De quem o senhor desconfia?
+        <<jump CoronelAmareloSuspeita>>
+    -> Já tenho o bastante. Agradeço seu tempo.
+        <<jump CoronelAmareloEncerrar>>
+    -> Vargas tinha segredos com algum convidado?
+        <<jump CoronelAmareloSegredos>>
 ===
 
 title: CoronelAmareloMotivo
-position: 300,100
+tags: gerado_ia
+position: 0,600
 ---
-Coronel Amarelo: "O motivo? Resolvi aceitar o convite de Vargas por razões minhas. Ele e eu temos pendências... e pendências não resolvidas são como pólvora esperando uma faísca."
-    -> "E alguém aqui pode ter causado essa faísca?" 
-        <<jump CoronelAmareloSuspeitos>>
-    -> "Que tipo de pendências?" 
-        <<jump CoronelAmareloPendencias>>
+Coronel Amarelo: Pendências financeiras não são sentença, detetive. Vargas colecionava informações perigosas, e eu sei algo sobre uma arma que ele mantinha longe de olhos imprudentes.
+    -> Então conte o que sabe sobre essa arma.
+        <<jump CoronelAmareloRevelaArma>>
+    -> O senhor está escondendo alguma coisa.
+        <<jump CoronelAmareloPressao>>
+    -> Recuarei por ora. Esta conversa terminou.
+        <<jump CoronelAmareloEncerrar>>
 ===
 
-title: CoronelAmareloSuspeitos
-position: 400,250
+title: CoronelAmareloSegredos
+tags: gerado_ia
+position: 300,600
 ---
-Coronel Amarelo: "Há muitos aqui que se ofenderiam se eu mencionasse suspeitas. Mas alguns... têm mais a esconder do que gostariam de admitir."
-    -> "Como o Chefe Branco?" 
-        <<reveal "Convai NPC Coronel Amarelo" "suspeito">> // Revela carta de Suspeito
-    -> "Prefere manter silêncio?" 
-        <<jump CoronelAmareloNadaAqui>>
+Coronel Amarelo: Vargas guardava segredos como quem acumula munição. Não revelarei todos, mas sei que uma pessoa nesta festa temia que certas informações viessem à luz.
+    -> Entendido. Não tomarei mais seu tempo.
+        <<jump CoronelAmareloEncerrar>>
+    -> O senhor sabe mais do que está dizendo.
+        <<jump CoronelAmareloPressao>>
+    -> O que sabe sobre essa pessoa?
+        <<jump CoronelAmareloRevelaSuspeito>>
 ===
 
-title: CoronelAmareloPendencias
-position: 500,300
+title: CoronelAmareloAlibi
+tags: gerado_ia
+position: 600,600
 ---
-Coronel Amarelo: "Pendências financeiras, talvez... ele gostava de colecionar informações, segredos. E alguns segredos não devem ser expostos à luz."
-    -> "Ele tinha algo contra você?" 
-        <<jump CoronelAmareloNadaAqui>>
-    -> "Então, esse segredo agora se foi?" 
-        <<jump CoronelAmareloNadaAqui>>
+Coronel Amarelo: Primeiro, aguardei na Sala de Jantar uma conversa particular que não ocorreu. Depois fui à Cozinha pedir uma bebida; o Chefe Branco estava lá por parte desse tempo, e nos vimos. Notei algo fora do lugar em um cômodo.
+    -> O que exatamente o senhor notou nesse cômodo?
+        <<jump CoronelAmareloRevelaLocal>>
+    -> Agradeço a explicação. Pode se retirar.
+        <<jump CoronelAmareloEncerrar>>
+    -> Seu álibi tem uma hesitação evidente.
+        <<jump CoronelAmareloPressao>>
 ===
 
-title: CoronelAmareloNadaAqui
-position: -150,500
+title: CoronelAmareloLocais
+tags: gerado_ia
+position: 900,600
 ---
-Detetive: "Entendo, coronel. Vamos seguir adiante."
+Coronel Amarelo: A mansão parecia um tabuleiro após o primeiro disparo: tudo no lugar, exceto um detalhe que me fez hesitar. Não mencionarei o aposento sem saber o uso que fará disso.
+    -> Diga o que viu nesse cômodo.
+        <<jump CoronelAmareloRevelaLocal>>
+    -> Sua hesitação indica que esconde algo.
+        <<jump CoronelAmareloPressao>>
+    -> Basta. Falarei com outra pessoa.
+        <<jump CoronelAmareloEncerrar>>
+===
+
+title: CoronelAmareloSuspeita
+tags: gerado_ia
+position: 1200,600
+---
+Coronel Amarelo: Não aponto culpados sem fundamento, detetive. Apenas digo que há quem tenha recebido de Vargas mais do que uma taça e um sorriso; certas alianças escondem pólvora.
+    -> Essa desconfiança serve para desviar a atenção.
+        <<jump CoronelAmareloPressao>>
+    -> Mostre o que sustenta essa desconfiança.
+        <<jump CoronelAmareloRevelaSuspeito>>
+    -> Já ouvi o suficiente. Obrigado.
+        <<jump CoronelAmareloEncerrar>>
+===
+
+title: CoronelAmareloPressao
+tags: gerado_ia
+position: 0,800
+---
+Coronel Amarelo: Está forçando uma porta que pode abrir sobre ambos. Ainda assim, talvez eu ceda uma vez; escolha suas palavras com o cuidado de quem maneja pólvora.
+    -> Eu o acuso diretamente, Coronel.
+        <<jump CoronelAmareloRecusa>>
+    -> Não insistirei mais. A conversa acabou.
+        <<jump CoronelAmareloEncerrar>>
+    -> Exijo, pela última vez, que mostre o que sabe.
+        <<jump CoronelAmareloRevelaArma>>
+===
+
+title: CoronelAmareloRevelaSuspeito
+tags: gerado_ia
+position: 300,800
+---
+<<reveal "Convai NPC Coronel Amarelo" "suspeito">>
+Coronel Amarelo: Muito bem, detetive. Entrego isto; talvez ajude a compreender quem se movia nas sombras desta casa. Não me peça, porém, que acrescente nomes ao que já está diante de você.
+===
+
+title: CoronelAmareloRevelaArma
+tags: gerado_ia
+position: 600,800
+---
+<<reveal "Convai NPC Coronel Amarelo" "arma do crime">>
+Coronel Amarelo: Certo, detetive. Mostro isto, e considero quitada minha parte nesta negociação. O restante pertence à sua investigação, não à minha consciência.
+===
+
+title: CoronelAmareloRevelaLocal
+tags: gerado_ia
+position: 900,800
+---
+<<reveal "Convai NPC Coronel Amarelo" "local">>
+Coronel Amarelo: Concedo-lhe isto, detetive. O detalhe que mencionei está diante de você; use-o com prudência, pois até uma sala silenciosa pode guardar uma faísca.
+===
+
+title: CoronelAmareloRecusa
+tags: gerado_ia
+position: 0,1000
+---
+Coronel Amarelo: Não responderei a uma acusação direta, detetive. Minha honra não é moeda de troca, e esta conversa chegou ao seu limite.
+===
+
+title: CoronelAmareloEncerrar
+tags: gerado_ia
+position: 1500,600
+---
+Coronel Amarelo: Está feito, detetive. Leve minhas palavras ao seu inquérito, mas não espere que eu dispare todos os cartuchos de uma vez.
 ===

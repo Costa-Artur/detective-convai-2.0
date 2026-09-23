@@ -50,6 +50,8 @@ public class SuggestionSystem : MonoBehaviour
     private List<Clue> matchingClues = new List<Clue>();
     private List<Clue> lastMatchingCluesPlayer = new List<Clue>();
     private NPCAI lastMatchedNPCPlayer;
+    private string lastNPCSuggestionText; // palpite do NPC que aguarda a carta do jogador
+    private bool roundSummaryLayoutReady;
     /**************************************************************************************************/
 
     private void Awake() {
@@ -169,7 +171,12 @@ public class SuggestionSystem : MonoBehaviour
                 
                 // Seleciona aleatoriamente uma pista para mostrar ao jogador
                 Clue clueToShow = matchingClues[UnityEngine.Random.Range(0, matchingClues.Count)];
-                
+
+                // Anota a carta no painel "Verificar Pistas".
+                PlayerCheckClues playerClues = GetComponent<PlayerCheckClues>();
+                if (playerClues != null)
+                    playerClues.RegisterRevealedClue(clueToShow, npcInventory.GetComponent<ConvaiNPC>().characterName);
+
                 // Formatação do resultado
                 string noClueNPCsText = npcsWithoutClues.Count > 0 
                     ? "Esses personagens não tinham pistas correspondentes: " + string.Join(", ", npcsWithoutClues) + "\n" 
@@ -215,7 +222,7 @@ public class SuggestionSystem : MonoBehaviour
     {
         List<Clue> matchingClues = new List<Clue>();
         npcsWithoutClues.Clear(); // Limpa a lista de NPCs sem pistas
-        currentNPCIndex = 0;
+        string autor = npcAI.GetComponent<ConvaiNPC>().characterName;
 
         Debug.Log(npcAI.name + " fez o palpite: " + guessedPerson.evidenceName + ", " + guessedWeapon.evidenceName + ", " + guessedLocation.evidenceName);
         Detective.Dialogue.SessionLogger.Log("palpite",
@@ -224,73 +231,132 @@ public class SuggestionSystem : MonoBehaviour
             ("arma", Detective.Dialogue.SessionLogger.Carta(guessedWeapon)),
             ("local", Detective.Dialogue.SessionLogger.Carta(guessedLocation)));
 
-        // Percorre todos os NPCs até encontrar uma pista ou esgotar as opções
-        while (currentNPCIndex < allInventories.Count)
+        // Pergunta na ordem dos turnos, a partir de quem vem DEPOIS do autor
+        // do palpite (TCC original, 3.1.2.2: só o primeiro que tiver uma carta
+        // a mostra). Antes começava sempre do primeiro NPC da lista, então os
+        // mesmos personagens respondiam a todos os palpites. allInventories
+        // segue a ordem dos turnos, com o jogador por último.
+        string palpiteTexto = $"{guessedPerson.evidenceName}, {guessedWeapon.evidenceName}, {guessedLocation.evidenceName}";
+        int total = allInventories.Count;
+        int inicio = allInventories.IndexOf(npcAI.npcInventory);
+        for (int passo = 1; passo <= total; passo++)
         {
-            LocalInventory npcInventory = allInventories[currentNPCIndex];
-
-            // Verifica se o NPC atual é o jogador
-            if (npcInventory == playerInventory)
-            {
-                matchingClues.Clear();
-                if (npcInventory.HasClue(guessedPerson)) matchingClues.Add(guessedPerson);
-                if (npcInventory.HasClue(guessedWeapon)) matchingClues.Add(guessedWeapon);
-                if (npcInventory.HasClue(guessedLocation)) matchingClues.Add(guessedLocation);
-
-                if (matchingClues.Count > 0)
-                {
-                    lastMatchedNPCPlayer = npcAI;
-                    // Abre a UI para o jogador escolher qual carta mostrar
-                    OpenPlayerCardSelectionPanel(matchingClues, guessedPerson, guessedWeapon, guessedLocation, npcAI.GetComponent<ConvaiNPC>().characterName);
-                    return emptyClue; // Aguardar o jogador escolher uma carta
-                }
-                currentNPCIndex++;
-                continue;
-            }
+            LocalInventory npcInventory = allInventories[((inicio + passo) % total + total) % total];
 
             // Pular o NPC que está fazendo a sugestão
             if (npcInventory == npcAI.npcInventory)
-            {
-                currentNPCIndex++;
                 continue;
-            }
 
             matchingClues.Clear();
-            // Verifica se o NPC tem alguma das pistas do palpite
             if (npcInventory.HasClue(guessedPerson)) matchingClues.Add(guessedPerson);
             if (npcInventory.HasClue(guessedWeapon)) matchingClues.Add(guessedWeapon);
             if (npcInventory.HasClue(guessedLocation)) matchingClues.Add(guessedLocation);
 
+            // Verifica se o NPC atual é o jogador
+            if (npcInventory == playerInventory)
+            {
+                if (matchingClues.Count > 0)
+                {
+                    lastMatchedNPCPlayer = npcAI;
+                    Detective.Dialogue.SessionLogger.Log("palpite_resultado",
+                        ("autor", Detective.Dialogue.SessionLogger.NomeNpc(npcAI)),
+                        ("resultado", "o jogador precisa mostrar uma carta"));
+                    // Abre a UI para o jogador escolher qual carta mostrar; a
+                    // rodada dos NPCs pausa até ele escolher.
+                    lastNPCSuggestionText = palpiteTexto;
+                    turnController.WaitForPlayerCard();
+                    OpenPlayerCardSelectionPanel(matchingClues, guessedPerson, guessedWeapon, guessedLocation, autor);
+                    return emptyClue; // Aguardar o jogador escolher uma carta
+                }
+                npcsWithoutClues.Add("você");
+                continue;
+            }
+
             // Se o NPC tem pelo menos uma pista
             if (matchingClues.Count > 0)
             {
-                Debug.Log("Achou um NPC que tem uma pista:" + npcInventory.GetComponent<ConvaiNPC>().characterName);
+                string quemMostrou = npcInventory.GetComponent<ConvaiNPC>().characterName;
+                Debug.Log("Achou um NPC que tem uma pista:" + quemMostrou);
                 // Seleciona aleatoriamente uma pista para mostrar ao NPC que fez o palpite
                 Clue clueToShow = matchingClues[UnityEngine.Random.Range(0, matchingClues.Count)];
-                // Exibe o NPC que mostrou a carta (sem revelar qual foi)
-                String noClueNPCsText = npcsWithoutClues.Count > 0 
-                    ? "Esses personagens não tinham pistas correspondentes: " + string.Join(", ", npcsWithoutClues) + "\n" 
-                    : "";
-                turnResultText.text = noClueNPCsText + npcInventory.GetComponent<ConvaiNPC>().characterName + " mostrou uma pista para " + npcAI.GetComponent<ConvaiNPC>().characterName;
-                personTurnResultEvidenceName.text = guessedPerson.evidenceName;
-                weaponTurnResultEvidenceName.text = guessedWeapon.evidenceName;
-                roomTurnResultEvidenceName.text = guessedLocation.evidenceName;
-                turnResultPanel.SetActive(true);
+                Detective.Dialogue.SessionLogger.Log("palpite_resultado",
+                    ("autor", Detective.Dialogue.SessionLogger.NomeNpc(npcAI)),
+                    ("mostrada_por", quemMostrou),
+                    ("carta", Detective.Dialogue.SessionLogger.Carta(clueToShow)));
+
+                // Entra no resumo da rodada quem mostrou a carta (sem revelar qual foi)
+                turnController.ReportNPCTurn(autor, palpiteTexto, quemMostrou + " mostrou uma carta");
                 return clueToShow; //Retorna pista para NPCAI
             }
-            else
-            {
-                // Adiciona o nome do NPC à lista de NPCs sem pistas
-                npcsWithoutClues.Add(npcInventory.GetComponent<ConvaiNPC>().characterName);
-            }
 
-            // Incrementa para o próximo NPC
-            currentNPCIndex++;
+            // Adiciona o nome do NPC à lista de NPCs sem pistas
+            npcsWithoutClues.Add(npcInventory.GetComponent<ConvaiNPC>().characterName);
         }
 
-        // Caso nenhum NPC tenha pistas
+        // Ninguém refutou - o palpite mais informativo da partida, que antes
+        // não abria painel nenhum e travava a sequência de turnos.
         Debug.Log("Nenhum personagem tinha uma carta correspondente.");
+        Detective.Dialogue.SessionLogger.Log("palpite_resultado",
+            ("autor", Detective.Dialogue.SessionLogger.NomeNpc(npcAI)),
+            ("resultado", "ninguem refutou"));
+        turnController.ReportNPCTurn(autor, palpiteTexto, "ninguém tinha carta");
         return emptyClue; // Retorna a Clue em branco pública
+    }
+
+    // Resumo da rodada dos NPCs no painel "Final do Turno", como tabela: as
+    // três colunas do painel (que mostravam um único palpite) viram "quem
+    // palpitou | palpite | quem mostrou carta", uma linha por personagem.
+    // Ordem das colunas na cena, da esquerda para a direita: Room, Person,
+    // Weapon (esta com o botão "Continuar...").
+    public void ShowRoundSummary(List<TurnController.NPCTurnRow> rows)
+    {
+        PrepareRoundSummaryLayout();
+
+        var autores = new List<string>();
+        var acoes = new List<string>();
+        var resultados = new List<string>();
+        foreach (TurnController.NPCTurnRow row in rows)
+        {
+            autores.Add(row.autor);
+            acoes.Add(row.acao);
+            resultados.Add(row.resultado);
+        }
+
+        turnResultText.text = "Palpites dos personagens nesta rodada:";
+        roomTurnResultEvidenceName.text = string.Join("\n", autores);
+        personTurnResultEvidenceName.text = string.Join("\n", acoes);
+        weaponTurnResultEvidenceName.text = string.Join("\n", resultados);
+        turnResultPanel.SetActive(true);
+    }
+
+    // Uma vez por partida: títulos das colunas e texto em uma linha por
+    // registro (sem quebra, com ajuste automático de tamanho), para as três
+    // colunas ficarem alinhadas linha a linha.
+    private void PrepareRoundSummaryLayout()
+    {
+        if (roundSummaryLayoutReady)
+            return;
+        roundSummaryLayoutReady = true;
+
+        SetupSummaryColumn(roomTurnResultEvidenceName, "Quem palpitou");
+        SetupSummaryColumn(personTurnResultEvidenceName, "Palpite");
+        SetupSummaryColumn(weaponTurnResultEvidenceName, "Quem mostrou carta");
+    }
+
+    private static void SetupSummaryColumn(TextMeshProUGUI field, string title)
+    {
+        float maxSize = field.fontSize;
+        field.textWrappingMode = TextWrappingModes.NoWrap;
+        field.enableAutoSizing = true;
+        field.fontSizeMin = 10;
+        field.fontSizeMax = maxSize;
+
+        // Título da coluna: o outro texto no mesmo grupo vertical.
+        foreach (TMP_Text t in field.transform.parent.GetComponentsInChildren<TMP_Text>(true))
+        {
+            if (t != field && t.transform.parent == field.transform.parent)
+                t.text = title;
+        }
     }
 
     public void OpenPlayerCardSelectionPanel(List <Clue> matchingCluesPlayer, Clue guessedPerson, Clue guessedWeapon, Clue guessedLocation, String characterName)
@@ -358,15 +424,21 @@ public class SuggestionSystem : MonoBehaviour
 
             // Desativa o painel de seleção de cartas após a escolha
             playerCardSelectionPanel.SetActive(false);
-            // Restaura o chat de conversa após o palpite
-            interrogationController.ResumeNPCDialog(interrogationController.GetCurrentIndex());
             matchingClues.Clear(); // Limpa as pistas após a seleção
 
             // Retorna a carta escolhida (esse valor pode ser passado de volta para a lógica de NPCMakeSuggestion)
             // Aqui, você pode continuar o processamento necessário para mostrar a carta ao NPC
 
             lastMatchedNPCPlayer.SeePlayerClue(chosenClue);
-            turnController.OnNextTurnButtonPressed();
+            Detective.Dialogue.SessionLogger.Log("palpite_resultado",
+                ("autor", Detective.Dialogue.SessionLogger.NomeNpc(lastMatchedNPCPlayer)),
+                ("mostrada_por", "Jogador"),
+                ("carta", Detective.Dialogue.SessionLogger.Carta(chosenClue)));
+            turnController.ReportNPCTurn(lastMatchedNPCPlayer.GetComponent<ConvaiNPC>().characterName,
+                                         lastNPCSuggestionText, $"você mostrou {chosenClue.evidenceName}");
+            // Retoma a rodada dos NPCs de onde parou (o chat só volta no
+            // início do turno do jogador).
+            turnController.ResumeAfterPlayerCard();
         }
         else
         {

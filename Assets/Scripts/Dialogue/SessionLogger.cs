@@ -146,15 +146,20 @@ namespace Detective.Dialogue
         // revelou. Registra so quando ha algo a apontar. Nomes de suspeitos
         // nao sao verificados: coincidem com os nomes dos convidados, que os
         // personagens citam o tempo todo sem estar revelando carta nenhuma.
+        // Cartas cujo nome aparece em textoDaPersona (ex.: os comodos do
+        // alibi) tambem sao ignoradas - citar o alibi nao e revelar carta.
         public static void VerificarCartasNaFala(string npc, string fala, string revelarPista,
-                                                 List<Clue> cartasDoNpc, Clue cartaRevelada)
+                                                 List<Clue> cartasDoNpc, Clue cartaRevelada,
+                                                 string textoDaPersona = null)
         {
             if (string.IsNullOrEmpty(fala) || _baralho.Count == 0)
                 return;
 
             string falaNorm = Normalizar(fala);
+            string personaNorm = string.IsNullOrEmpty(textoDaPersona) ? "" : Normalizar(textoDaPersona);
             var citadas = _baralho
                 .Where(c => c.tipo != "suspeito" && falaNorm.Contains(Normalizar(c.nome)))
+                .Where(c => personaNorm.Length == 0 || !personaNorm.Contains(Normalizar(c.nome)))
                 .ToList();
 
             var possuidas = new HashSet<string>(
@@ -164,6 +169,12 @@ namespace Detective.Dialogue
 
             foreach (var c in citadas.Where(c => !possuidas.Contains(c.nome)))
                 problemas.Add($"a fala cita '{c.nome}' [{c.tipo}], que este NPC NAO possui");
+
+            // Os roteirizados nao podem nomear a carta que entregam (ela e
+            // sorteada); o dinamico tambem nao deve, ou se diferencia.
+            if (cartaRevelada != null && falaNorm.Contains(Normalizar(cartaRevelada.evidenceName)))
+                problemas.Add($"a fala nomeia a carta entregue '{cartaRevelada.evidenceName}' " +
+                              "(os roteirizados nunca nomeiam)");
 
             if (cartaRevelada != null)
             {

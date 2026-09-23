@@ -26,6 +26,6 @@ MonoBehaviour:
   optionCount: 3
   maxTurns: 5
   maxChars: 220
-  maxTokens: 300
+  maxTokens: 3000
   temperature: 0.8
   timeoutSeconds: 20

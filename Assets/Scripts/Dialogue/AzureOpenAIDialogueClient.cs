@@ -41,7 +41,11 @@ namespace Detective.Dialogue
         // systemPrompt: persona + regras de formato (ver doc 4.2).
         // history: mensagens anteriores da conversa (user = escolha do jogador,
         // assistant = fala anterior do NPC), para manter coerencia contextual.
-        public async Task<DynamicTurnResult> GenerateTurnAsync(string systemPrompt, List<ChatMessage> history)
+        // cardNames: nomes das cartas que o NPC pode entregar - viram o "enum"
+        // de revelar_pista e carta_alvo, entao o servidor so aceita cartas
+        // que o NPC de fato tem (null = nenhuma, usado pelos testes).
+        public async Task<DynamicTurnResult> GenerateTurnAsync(string systemPrompt, List<ChatMessage> history,
+                                                               IList<string> cardNames = null)
         {
             var messages = new List<ChatMessage> { new ChatMessage("system", systemPrompt) };
             messages.AddRange(history);
@@ -53,7 +57,7 @@ namespace Detective.Dialogue
                     messages = messages.ToArray(),
                     max_completion_tokens = _config.maxTokens,
                     reasoning_effort = _config.reasoningEffort,
-                    response_format = BuildResponseFormat(_config.optionCount)
+                    response_format = BuildResponseFormat(_config.optionCount, cardNames)
                 })
                 : JsonUtility.ToJson(new ChatRequest
                 {
@@ -61,7 +65,7 @@ namespace Detective.Dialogue
                     messages = messages.ToArray(),
                     max_tokens = _config.maxTokens,
                     temperature = _config.temperature,
-                    response_format = BuildResponseFormat(_config.optionCount)
+                    response_format = BuildResponseFormat(_config.optionCount, cardNames)
                 });
 
             LastRawContent = null;
@@ -70,7 +74,8 @@ namespace Detective.Dialogue
 
             var parsed = JsonUtility.FromJson<DynamicTurnResult>(content);
 
-            if (parsed == null || parsed.opcoes == null || parsed.opcoes.Length != _config.optionCount)
+            if (parsed == null || parsed.opcoes == null || parsed.opcoes.Length != _config.optionCount ||
+                parsed.papeis_opcoes == null || parsed.papeis_opcoes.Length != _config.optionCount)
             {
                 throw new Exception(
                     $"[AzureOpenAIDialogueClient] Resposta fora do contrato esperado " +
@@ -80,8 +85,16 @@ namespace Detective.Dialogue
             return parsed;
         }
 
-        private static ResponseFormat BuildResponseFormat(int optionCount)
+        private static ResponseFormat BuildResponseFormat(int optionCount, IList<string> cardNames)
         {
+            var cards = new List<string> { "" };
+            if (cardNames != null)
+            {
+                foreach (string name in cardNames)
+                    if (!string.IsNullOrEmpty(name) && !cards.Contains(name))
+                        cards.Add(name);
+            }
+
             return new ResponseFormat
             {
                 json_schema = new JsonSchemaWrapper
@@ -90,7 +103,15 @@ namespace Detective.Dialogue
                     {
                         properties = new TurnSchemaProperties
                         {
-                            opcoes = new SchemaArrayField { minItems = optionCount, maxItems = optionCount }
+                            opcoes = new SchemaArrayField { minItems = optionCount, maxItems = optionCount },
+                            papeis_opcoes = new SchemaEnumArrayField
+                            {
+                                items = new SchemaEnumField { @enum = OptionRoles.Todos },
+                                minItems = optionCount,
+                                maxItems = optionCount
+                            },
+                            revelar_pista = new SchemaEnumField { @enum = cards.ToArray() },
+                            carta_alvo = new SchemaEnumField { @enum = cards.ToArray() }
                         }
                     }
                 }
@@ -133,7 +154,17 @@ namespace Detective.Dialogue
                         $"[AzureOpenAIDialogueClient] Resposta sem 'choices'. Corpo: {www.downloadHandler.text}");
                 }
 
-                return response.choices[0].message.content;
+                ChatChoice choice = response.choices[0];
+                if (string.IsNullOrEmpty(choice.message?.content))
+                {
+                    // finish_reason "length" = o modelo estourou max_completion_tokens
+                    // (nos modelos de raciocinio, pensar consome esse mesmo limite).
+                    throw new Exception(
+                        $"[AzureOpenAIDialogueClient] Resposta sem conteudo (finish_reason: " +
+                        $"{choice.finish_reason}). Se for 'length', aumente maxTokens no AzureOpenAIConfig.");
+                }
+
+                return choice.message.content;
             }
         }
     }

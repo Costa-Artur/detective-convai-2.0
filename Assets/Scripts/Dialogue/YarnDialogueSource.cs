@@ -47,10 +47,10 @@ namespace Detective.Dialogue
 
         public void Begin(Action<DialogueTurn> onTurnReady)
         {
-            _onTurnReady = onTurnReady;
             _pendingLine = null;
             _lastLine = null;
             _onOptionSelected = null;
+            _started = false;
 
             if (dialogueRunner == null)
             {
@@ -58,8 +58,13 @@ namespace Detective.Dialogue
                 return;
             }
 
+            // Para a conversa anterior ANTES de registrar o callback: o Stop()
+            // dispara DialogueComplete, que emitiria um turno final vazio
+            // nesta conversa nova.
             if (dialogueRunner.IsDialogueRunning)
                 dialogueRunner.Stop();
+
+            _onTurnReady = onTurnReady;
 
             if (!dialogueRunner.NodeExists(startNodeName))
             {
@@ -97,6 +102,7 @@ namespace Detective.Dialogue
 
         public void End()
         {
+            _started = false;
             _onTurnReady = null;
             _onOptionSelected = null;
             _pendingLine = null;
@@ -109,17 +115,23 @@ namespace Detective.Dialogue
 
         private readonly List<int> _optionIds = new List<int>();
 
+        // true depois que a conversa iniciada por Begin() entregou algo. Um
+        // DialogueComplete antes disso vem de uma conversa anterior.
+        private bool _started;
+
         public override void RunLine(LocalizedLine dialogueLine, Action onDialogueLineFinished)
         {
             // Guarda a fala e avisa o Yarn imediatamente que "terminamos de
             // exibir", para que ele siga adiante e entregue as opcoes. A
             // exibicao de verdade acontece quando o turno completo e emitido.
+            _started = true;
             _pendingLine = dialogueLine.TextWithoutCharacterName.Text;
             onDialogueLineFinished?.Invoke();
         }
 
         public override void RunOptions(DialogueOption[] dialogueOptions, Action<int> onOptionSelected)
         {
+            _started = true;
             _onOptionSelected = onOptionSelected;
             _optionIds.Clear();
 
@@ -135,6 +147,9 @@ namespace Detective.Dialogue
 
         public override void DialogueComplete()
         {
+            if (!_started)
+                return;
+
             // Fim da conversa. Precisa SEMPRE emitir um turno final, mesmo sem
             // fala nova - senao a interface fica presa no "digitando..." para
             // sempre, sem nada para exibir e sem botao para sair.

@@ -95,6 +95,7 @@ public class FinalAccusation : MonoBehaviour
         }
 
         bool correct = gameController.IsAccusationCorrect(finalAccusation);
+        GetComponent<TurnController>().EndGame(); // a acusação do jogador encerra a partida
         LogAccusation("Jogador", chosenPerson, chosenWeapon, chosenLocation, correct,
                       guiltyPerson, guiltyWeapon, guiltyLocation);
 
@@ -140,7 +141,8 @@ public class FinalAccusation : MonoBehaviour
 
         if (correct)
         {
-            // Se a acusação estiver correta, NPC vence
+            // Se a acusação estiver correta, NPC vence e a rodada para aqui
+            GetComponent<TurnController>().EndGame();
             ShowResultPanel($"{npc.GetComponent<ConvaiNPC>().characterName} fez a acusação correta e venceu o jogo!", guiltyPerson, guiltyWeapon, guiltyLocation);
             // Aqui exibe a tela de derrota para o jogador
         }
@@ -148,9 +150,14 @@ public class FinalAccusation : MonoBehaviour
         {
             // Se a acusação estiver errada, NPC perde
             npc.HasLost = true;
-            resultText.text = $"{npc.GetComponent<ConvaiNPC>().characterName} fez a acusação errada e perdeu!";
-            Debug.LogWarning($"{npc.GetComponent<ConvaiNPC>().characterName} fez a acusação errada e perdeu!");
-            //ShowResultPanel();
+            string mensagem = $"{npc.GetComponent<ConvaiNPC>().characterName} fez uma acusação final errada e está fora do jogo.";
+            Debug.LogWarning(mensagem);
+            // Antes a mensagem ia para o painel de fim de jogo, que não era
+            // aberto: o jogador não ficava sabendo, e a sequência de turnos
+            // dos NPCs parava. Agora entra no resumo da rodada.
+            GetComponent<TurnController>().ReportNPCTurn(npc.GetComponent<ConvaiNPC>().characterName,
+                $"Acusação: {person.evidenceName}, {weapon.evidenceName}, {location.evidenceName}",
+                "errou - fora do jogo");
         }
     }
 

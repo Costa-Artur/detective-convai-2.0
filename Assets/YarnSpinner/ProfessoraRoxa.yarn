@@ -1,89 +1,168 @@
 title: ProfessoraRoxaInicio
-tags:
-position: -300,100
+tags: gerado_ia
+position: 0,200
 ---
-Detetive: "Professora Roxa, como você se sentiu ao saber da morte de seu pai?"
-Professora Roxa: "Sentimentos... são mais complexos do que respostas simples, detetive. Há mágoa, mas também uma certa serenidade. Como disse Aristóteles, 'a vida é um aprendizado constante'."
-    -> "Vocês discutiam frequentemente?"
-        <<jump ProfessoraRoxaDiscutiam>>
-    -> "Algum desentendimento recente?"
-        <<jump ProfessoraRoxaDesentendimento>>
-    -> "Como era sua relação com ele?"
-        <<jump ProfessoraRoxaRelacao>>
+// Gerado por IA (gpt-5.6-luna, reasoning_effort=medium), amostra 3. Revisar e editar a mao - ver tools/dialogos/README.md
+Professora Roxa: Sente-se, detetive. Farei o possível para distinguir fatos de interpretações; em noites assim, a verdade costuma se esconder nas pequenas dissonâncias.
+    -> O que a senhora fez durante a festa?
+        <<jump ProfessoraRoxaNoite>>
+    -> Como era sua relação com o Sr. Vargas?
+        <<jump ProfessoraRoxaVitima>>
+    -> O que pensa dos outros convidados?
+        <<jump ProfessoraRoxaConvidados>>
 ===
 
-title: ProfessoraRoxaDiscutiam
-position: -400,250
+title: ProfessoraRoxaVitima
+tags: gerado_ia
+position: 0,400
 ---
-Professora Roxa: "Sim, nossa visão de mundo divergia. Ele via poder, eu via responsabilidade."
-    -> "Responsabilidade para com quem?"
-        <<reveal "Convai NPC Professora Roxa" "local">> // Revela carta de Local
-    -> "E poder para ele significava o quê?"
-        <<jump ProfessoraRoxaPoder>>
+Professora Roxa: Meu pai e eu discordávamos sobre quase tudo. Ele via as pessoas como peças móveis; eu preferia lembrá-lo de que peças também sofrem quando são deslocadas.
+    -> Que segredos o Sr. Vargas guardava?
+        <<jump ProfessoraRoxaSegredos>>
+    -> A senhora tinha algum motivo contra ele?
+        <<jump ProfessoraRoxaMotivo>>
+    -> Agradeço. Podemos encerrar por aqui.
+        <<jump ProfessoraRoxaEncerrar>>
 ===
 
-title: ProfessoraRoxaPoder
-position: -450,400
+title: ProfessoraRoxaNoite
+tags: gerado_ia
+position: 300,400
 ---
-Professora Roxa: "Significava controle, manipulação... e a sensação de superioridade que o acompanhava. Para ele, sempre era uma questão de vencer."
-    -> "E você, queria vencê-lo?"
-        <<jump ProfessoraRoxaNadaAqui>>
-    -> "Vencer, ou apenas compreender?"
-        <<jump ProfessoraRoxaNadaAqui>>
+Professora Roxa: A festa tinha uma cordialidade frágil, dessas que parecem depender da iluminação. Eu estava mais contemplativa que sociável, observando o desconforto como quem estuda um experimento.
+    -> Obrigado pelo tempo. Vou seguir adiante.
+        <<jump ProfessoraRoxaEncerrar>>
+    -> Notou algo estranho em algum cômodo?
+        <<jump ProfessoraRoxaLocais>>
+    -> Onde exatamente a senhora estava quando ocorreu o crime?
+        <<jump ProfessoraRoxaAlibi>>
 ===
 
-title: ProfessoraRoxaDesentendimento
-position: -100,250
+title: ProfessoraRoxaConvidados
+tags: gerado_ia
+position: 600,400
 ---
-Professora Roxa: "Desentendimentos, detetive? A vida inteira. Meu pai era inflexível, e nossas diferenças só se acentuaram com o tempo."
-    -> "As discussões chegaram a ser violentas?"
-        <<reveal "Convai NPC Professora Roxa" "arma do crime">> // Revela carta de Arma
-    -> "Discutiam sobre herança?"
-        <<jump ProfessoraRoxaHeranca>>
+Professora Roxa: Meu pai cultivava alianças e rivalidades com igual cuidado. Alguns convidados orbitavam seus favores; outros, suas desavenças. Ele precisava dessa tensão para se sentir no centro.
+    -> De quem a senhora desconfia?
+        <<jump ProfessoraRoxaSuspeita>>
+    -> Entendo. Não tomarei mais seu tempo.
+        <<jump ProfessoraRoxaEncerrar>>
+    -> Ele tinha segredos com algum convidado?
+        <<jump ProfessoraRoxaSegredos>>
 ===
 
-title: ProfessoraRoxaHeranca
-position: -150,400
+title: ProfessoraRoxaMotivo
+tags: gerado_ia
+position: 0,600
 ---
-Professora Roxa: "A herança... para ele, parecia uma forma de controle, até depois da morte. Eu queria que seu legado fosse algo mais."
-    -> "Como assim, mais?"
-        <<jump ProfessoraRoxaNadaAqui>>
-    -> "E isso o incomodava?"
-        <<jump ProfessoraRoxaNadaAqui>>
+Professora Roxa: Mágoa não é intenção, detetive. Eu lamentei a distância entre nós, mas não confundo sofrimento com desejo de destruição; ainda assim, sei algo sobre uma arma.
+    -> Então conte o que sabe sobre essa arma.
+        <<jump ProfessoraRoxaRevelaArma>>
+    -> A senhora está escondendo alguma coisa.
+        <<jump ProfessoraRoxaPressao>>
+    -> Prefiro não continuar essa conversa.
+        <<jump ProfessoraRoxaEncerrar>>
 ===
 
-title: ProfessoraRoxaRelacao
-position: 200,100
+title: ProfessoraRoxaSegredos
+tags: gerado_ia
+position: 300,600
 ---
-Professora Roxa: "Relação? Se é que posso chamar assim. Para ele, laços familiares eram conveniências, um jogo de xadrez."
-    -> "Acredita que ele tinha inimigos?"
-        <<jump ProfessoraRoxaInimigos>>
-    -> "Ele a via como uma ameaça?"
-        <<jump ProfessoraRoxaAmeaca>>
+Professora Roxa: Vargas acumulava informações como quem coleciona moedas: para comprar silêncio depois. Sei que uma pessoa nesta casa conhecia uma parte particularmente delicada desse acervo.
+    -> Já compreendi. Pode deixar isso para lá.
+        <<jump ProfessoraRoxaEncerrar>>
+    -> O que sabe sobre essa pessoa?
+        <<jump ProfessoraRoxaRevelaSuspeito>>
+    -> A senhora sabe mais do que está dizendo.
+        <<jump ProfessoraRoxaPressao>>
 ===
 
-title: ProfessoraRoxaInimigos
-position: 300,250
+title: ProfessoraRoxaAlibi
+tags: gerado_ia
+position: 600,600
 ---
-Professora Roxa: "Com certeza. Meu pai lidava com muitos aliados e tantos outros rivais. No fundo, ele se alimentava dessa tensão."
-    -> "Como o Coronel Amarelo, talvez?"
-        <<reveal "Convai NPC Professora Roxa" "suspeito">> // Revela carta de Suspeito
-    -> "Isso o manteve distante de você?"
-        <<jump ProfessoraRoxaNadaAqui>>
+Professora Roxa: Primeiro estive na Sala de Estar, lendo cartas antigas, sozinha. Depois fui ao Escritório buscar fotografias de família; a Doutora Azul estava lá por parte do tempo, e nos vimos. Notei algo fora do lugar em um cômodo.
+    -> Agradeço a clareza. Vou prosseguir.
+        <<jump ProfessoraRoxaEncerrar>>
+    -> Esse álibi parece conveniente demais.
+        <<jump ProfessoraRoxaPressao>>
+    -> O que exatamente estava fora do lugar?
+        <<jump ProfessoraRoxaRevelaLocal>>
 ===
 
-title: ProfessoraRoxaAmeaca
-position: 350,400
+title: ProfessoraRoxaLocais
+tags: gerado_ia
+position: 900,600
 ---
-Professora Roxa: "Ameaça? Eu diria que ele me via como uma decepção. E talvez... uma sombra que ele não poderia moldar ao seu gosto."
-    -> "Entendo. Vamos continuar." 
-        <<jump ProfessoraRoxaNadaAqui>>
-    -> "E essa decepção, era recíproca?"
-        <<jump ProfessoraRoxaNadaAqui>>
+Professora Roxa: A mansão parecia organizada apenas na superfície. Havia um cômodo cuja ordem me pareceu artificial, como uma frase cuidadosamente reescrita; hesito porque não quero transformar impressão em certeza.
+    -> Está bem. Continuarei sem essa informação.
+        <<jump ProfessoraRoxaEncerrar>>
+    -> Sua hesitação sugere que esconde algo.
+        <<jump ProfessoraRoxaPressao>>
+    -> O que a senhora viu nesse cômodo?
+        <<jump ProfessoraRoxaRevelaLocal>>
 ===
 
-title: ProfessoraRoxaNadaAqui
-position: -100,500
+title: ProfessoraRoxaSuspeita
+tags: gerado_ia
+position: 1200,600
 ---
-Detetive: "Obrigado, Professora Roxa. Vou fazer mais perguntas depois."
+Professora Roxa: Desconfiança não é condenação. Eu apenas observo quem dependia do favor de Vargas e quem poderia desejar romper o tabuleiro em vez de continuar jogando.
+    -> O que sustenta essa desconfiança?
+        <<jump ProfessoraRoxaRevelaSuspeito>>
+    -> Não insistirei nessa linha.
+        <<jump ProfessoraRoxaEncerrar>>
+    -> Essa desconfiança serve apenas para desviar a atenção.
+        <<jump ProfessoraRoxaPressao>>
+===
+
+title: ProfessoraRoxaPressao
+tags: gerado_ia
+position: 0,800
+---
+Professora Roxa: O senhor está tentando converter silêncio em culpa, uma falácia antiga. Posso ceder algo, mas não aceitarei que minhas reservas sejam tratadas como confissão.
+    -> A senhora é a responsável pela morte dele.
+        <<jump ProfessoraRoxaRecusa>>
+    -> Então encerramos por aqui.
+        <<jump ProfessoraRoxaEncerrar>>
+    -> Mostre, pela última vez, o que sabe.
+        <<jump ProfessoraRoxaRevelaArma>>
+===
+
+title: ProfessoraRoxaRevelaSuspeito
+tags: gerado_ia
+position: 300,800
+---
+<<reveal "Convai NPC Professora Roxa" "suspeito">>
+Professora Roxa: Está bem. Mostro ao senhor o que guardei sobre essa pessoa; interprete por si mesmo, sem me atribuir conclusões que não pronunciei.
+===
+
+title: ProfessoraRoxaRevelaArma
+tags: gerado_ia
+position: 600,800
+---
+<<reveal "Convai NPC Professora Roxa" "arma do crime">>
+Professora Roxa: Muito bem. Mostro ao senhor o que sei sobre isso; a interpretação dos fatos deve permanecer nas suas mãos, não nas minhas.
+===
+
+title: ProfessoraRoxaRevelaLocal
+tags: gerado_ia
+position: 900,800
+---
+<<reveal "Convai NPC Professora Roxa" "local">>
+Professora Roxa: Certo. Mostro ao senhor o que encontrei naquele cômodo. Como ensinava Montaigne, a prudência começa quando admitimos os limites do próprio olhar.
+===
+
+title: ProfessoraRoxaRecusa
+tags: gerado_ia
+position: 0,1000
+---
+Professora Roxa: Não continuarei sob uma acusação direta. A razão exige exame, não submissão; quando houver respeito pelo primeiro, talvez exista espaço para prosseguir.
+===
+
+title: ProfessoraRoxaEncerrar
+tags: gerado_ia
+position: 1500,600
+---
+Professora Roxa: Fiz o que podia esclarecer. Espero que o senhor trate os fatos com mais cuidado do que meu pai tratava as pessoas.
 ===

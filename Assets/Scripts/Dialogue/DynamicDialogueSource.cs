@@ -18,13 +18,23 @@ namespace Detective.Dialogue
         public string SpeakerName => speakerName;
 
         // O NPC dinamico ja demora naturalmente o tempo da chamada de rede -
-        // aplicar atraso artificial aqui o deixaria mais lento que os outros,
-        // que e exatamente o oposto do que se quer.
-        public bool NeedsArtificialDelay => false;
+        // aplicar atraso artificial aqui o deixaria mais lento que os outros.
+        // A excecao e o turno repetido do cache (conversa revisitada): ele nao
+        // passa pela rede e apareceria instantaneamente, entao recebe o mesmo
+        // atraso calibrado dos roteirizados.
+        public bool NeedsArtificialDelay => _lastTurnFromCache;
+        private bool _lastTurnFromCache;
 
         private DynamicNPCController _controller;
         private Action<DialogueTurn> _onTurnReady;
         private string[] _currentOptions = Array.Empty<string>();
+        private string[] _currentRoles = Array.Empty<string>();
+
+        // Identifica a conversa atual. Se o jogador troca de NPC enquanto a
+        // chamada de rede esta em andamento, a resposta que chega depois e de
+        // uma conversa abandonada e precisa ser descartada - senao ela aparece
+        // na tela por cima da conversa nova.
+        private int _generation;
 
         private void Awake()
         {
@@ -34,18 +44,21 @@ namespace Detective.Dialogue
         public async void Begin(Action<DialogueTurn> onTurnReady)
         {
             _onTurnReady = onTurnReady;
+            int generation = ++_generation;
 
             // async void: uma excecao aqui se perderia silenciosamente e a
             // interface ficaria travada em "digitando..." para sempre.
             try
             {
                 DynamicTurnResult result = await _controller.StartConversation();
+                if (Outdated(generation)) return;
                 EmitTurn(result);
             }
             catch (Exception ex)
             {
                 Debug.LogError($"[DynamicDialogueSource] Falha ao iniciar conversa: {ex.Message}");
-                EmitFailureTurn();
+                if (!Outdated(generation))
+                    EmitFailureTurn();
             }
         }
 
@@ -59,70 +72,60 @@ namespace Detective.Dialogue
 
             // O modelo recebe de volta o TEXTO da opcao escolhida (nao o
             // indice) - e assim que ele sabe o que o jogador "disse".
+            // O papel da opcao (pedir a carta, sair...) define o roteiro do
+            // turno seguinte - ver DynamicNPCController.
             string chosenText = _currentOptions[optionIndex];
+            string chosenRole = optionIndex < _currentRoles.Length ? _currentRoles[optionIndex] : null;
+
+            int generation = _generation;
 
             try
             {
-                DynamicTurnResult result = await _controller.ChooseOption(chosenText);
+                DynamicTurnResult result = await _controller.ChooseOption(chosenText, chosenRole);
+                if (Outdated(generation)) return;
                 EmitTurn(result);
             }
             catch (Exception ex)
             {
                 Debug.LogError($"[DynamicDialogueSource] Falha ao avançar conversa: {ex.Message}");
-                EmitFailureTurn();
+                if (!Outdated(generation))
+                    EmitFailureTurn();
             }
         }
 
-        // Aciona o mesmo painel que os NPCs roteirizados usam pelo <<reveal>>.
-        // O LocalInventory ja sabe escolher uma carta do tipo pedido e exibi-la;
-        // se o NPC nao tiver carta daquele tipo, ele proprio informa isso.
-        private static readonly string[] TiposValidos = { "suspeito", "arma do crime", "local" };
-
-        private Clue RevealClue(string clueType)
+        // Aciona o mesmo painel que os NPCs roteirizados usam pelo <<reveal>>,
+        // com a carta ESPECIFICA escolhida pelo modelo (pelo nome). O schema
+        // ja restringe o valor as cartas do NPC; a checagem aqui cobre as
+        // cartas extras de teste, que nao existem no inventario.
+        private Clue RevealClue(string cardName)
         {
             var inventory = GetComponent<LocalInventory>();
             if (inventory == null)
             {
                 Debug.LogWarning($"[DynamicDialogueSource] '{gameObject.name}' pediu para revelar " +
-                                 $"'{clueType}', mas não tem LocalInventory.");
-                LogRevealRequest(clueType, "sem_inventario", null);
+                                 $"'{cardName}', mas não tem LocalInventory.");
+                LogRevealRequest(cardName, "sem_inventario", null);
                 return null;
             }
 
-            // O JSON Schema garante que 'revelar_pista' e uma string, mas nao
-            // que o VALOR faz sentido. Sem validar aqui, um valor invalido cai
-            // no fallback do LocalInventory, que revela uma carta ALEATORIA de
-            // qualquer tipo - entregando ao jogador uma carta que o personagem
-            // nunca pretendeu mostrar, e desequilibrando a partida.
-            string tipo = clueType.ToLowerInvariant();
-
-            if (System.Array.IndexOf(TiposValidos, tipo) < 0)
+            Clue revealed = inventory.RevealSpecificCard(cardName, "dinamico");
+            if (revealed == null)
             {
-                Debug.LogWarning($"[DynamicDialogueSource] {speakerName} pediu revelar_pista=" +
-                                 $"'{clueType}', que não é um tipo válido " +
-                                 $"({string.Join(", ", TiposValidos)}). Revelação ignorada.");
-                LogRevealRequest(clueType, "ignorada_tipo_invalido", inventory);
+                Debug.LogWarning($"[DynamicDialogueSource] {speakerName} pediu revelar '{cardName}', " +
+                                 "que não está no inventário. Revelação ignorada.");
+                LogRevealRequest(cardName, "ignorada_carta_fora_do_inventario", inventory);
                 return null;
             }
 
-            if (!inventory.GetAllClues().Exists(c => c != null && c.type == tipo))
-            {
-                Debug.LogWarning($"[DynamicDialogueSource] {speakerName} tentou revelar uma carta do " +
-                                 $"tipo '{tipo}', mas não possui nenhuma. Revelação ignorada.");
-                LogRevealRequest(clueType, "ignorada_npc_sem_carta_do_tipo", inventory);
-                return null;
-            }
-
-            Debug.Log($"[DynamicDialogueSource] {speakerName} revela carta do tipo '{tipo}'.");
-            LogRevealRequest(clueType, "executada", inventory);
-            return inventory.RevealCardOfType(tipo, "dinamico");
+            LogRevealRequest(cardName, "executada", inventory);
+            return revealed;
         }
 
-        private void LogRevealRequest(string clueType, string resultado, LocalInventory inventory)
+        private void LogRevealRequest(string cardName, string resultado, LocalInventory inventory)
         {
             SessionLogger.Log("ia_revelacao_pedida",
                 ("npc", SessionLogger.NomeNpc(this)),
-                ("revelar_pista", clueType),
+                ("revelar_pista", cardName),
                 ("resultado", resultado),
                 ("cartas_do_npc", SessionLogger.Cartas(inventory != null ? inventory.GetAllClues() : null)));
         }
@@ -133,6 +136,7 @@ namespace Detective.Dialogue
         // interface presa em "digitando...".
         private void EmitFailureTurn()
         {
+            _lastTurnFromCache = false;
             _onTurnReady?.Invoke(new DialogueTurn
             {
                 speakerName = speakerName,
@@ -142,15 +146,30 @@ namespace Detective.Dialogue
             });
         }
 
+        private bool Outdated(int generation)
+        {
+            if (generation == _generation)
+                return false;
+
+            SessionLogger.Log("ia_turno_descartado",
+                ("npc", SessionLogger.NomeNpc(this)),
+                ("motivo", "a conversa foi trocada enquanto a resposta vinha"));
+            return true;
+        }
+
         public void End()
         {
+            _generation++;
             _onTurnReady = null;
             _currentOptions = Array.Empty<string>();
+            _currentRoles = Array.Empty<string>();
         }
 
         private void EmitTurn(DynamicTurnResult result)
         {
+            _lastTurnFromCache = _controller != null && _controller.LastTurnFromCache;
             _currentOptions = result.opcoes ?? Array.Empty<string>();
+            _currentRoles = result.papeis_opcoes ?? Array.Empty<string>();
 
             // Equivalente ao <<reveal>> dos NPCs roteirizados: abre o painel
             // "Pista Revelada" com uma carta do tipo pedido. Sem isto o NPC
@@ -160,9 +179,12 @@ namespace Detective.Dialogue
             if (!string.IsNullOrWhiteSpace(result.revelar_pista))
                 revealed = RevealClue(result.revelar_pista.Trim());
 
+            // Cartas citadas na persona (os comodos do alibi, por exemplo) nao
+            // contam como citacao de carta.
             var inventory = GetComponent<LocalInventory>();
             SessionLogger.VerificarCartasNaFala(SessionLogger.NomeNpc(this), result.fala,
-                result.revelar_pista, inventory != null ? inventory.GetAllClues() : null, revealed);
+                result.revelar_pista, inventory != null ? inventory.GetAllClues() : null, revealed,
+                _controller != null ? _controller.personaBackstory : null);
 
             _onTurnReady?.Invoke(new DialogueTurn
             {

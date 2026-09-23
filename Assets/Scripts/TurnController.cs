@@ -12,14 +12,30 @@ public class TurnController : MonoBehaviour
     [Header("É o turno do jogador?")]
     public bool isPlayerTurn = true; // Define se é o turno do jogador
     private InterrogationController interrogationController; // Referência ao InterrogationController
+    private SuggestionSystem suggestionSystem;
 
     [Header("Panels para indicar turnos")]
     public GameObject playerSuggestionResultPanel; // UI para indicar o turno do jogador
     public GameObject turnResultPanel; // UI para indicar o turno dos NPCs
 
+    // Resumo da rodada dos NPCs: uma linha por personagem (quem palpitou, o
+    // palpite, quem mostrou carta). Antes cada NPC abria o próprio painel e
+    // exigia um clique - 6 cliques por rodada, cerca de 60 numa partida com
+    // a regra de uma carta por personagem (diário, item 38).
+    public struct NPCTurnRow
+    {
+        public string autor;
+        public string acao;
+        public string resultado;
+    }
+    private readonly List<NPCTurnRow> roundRows = new List<NPCTurnRow>();
+    private bool waitingForPlayerCard;
+    private bool gameOver;
+
     void Awake()
     {
         interrogationController = GetComponent<InterrogationController>();
+        suggestionSystem = GetComponent<SuggestionSystem>();
     }
 
     void Start()
@@ -31,78 +47,97 @@ public class TurnController : MonoBehaviour
     public void StartPlayerTurn()
     {
         isPlayerTurn = true;
+        currentTurnIndex = 0;
         turnResultPanel.SetActive(false);
+        // Os turnos passam a câmera por cada NPC; volta para o personagem
+        // cuja conversa está aberta antes de reexibi-la.
+        interrogationController.RestoreConversationView();
         interrogationController.ResumeNPCDialog(interrogationController.GetCurrentIndex());
     }
 
-    // Função para finalizar o turno do jogador e passar para o NPC
+    // Função para finalizar o turno do jogador e passar para os NPCs
     public void EndPlayerTurn()
     {
+        if (gameOver)
+            return;
+
         isPlayerTurn = false;
-        //Estava comentado antes
         interrogationController.CloseNPCDialog();
-        StartNPCTurn(); // Chama o turno do primeiro NPC
+        roundRows.Clear();
+        currentTurnIndex = 0;
+        RunNPCTurns();
     }
 
-    // Função para iniciar o turno do próximo NPC
-    public void StartNPCTurn()
+    // Roda os turnos dos NPCs em sequência, no mesmo quadro. Para quando um
+    // NPC precisa que o jogador mostre uma carta (retoma em
+    // ResumeAfterPlayerCard) ou quando alguém vence.
+    void RunNPCTurns()
     {
-        if (currentTurnIndex < npcs.Count)
+        while (currentTurnIndex < npcs.Count)
         {
-            NPCAI currentNPC = npcs[currentTurnIndex];
-            //Estava comentado antes
-            interrogationController.SetNPCByIndex(currentTurnIndex, true); // Atualiza o NPC no InterrogationController
-            PlayNPCTurn(currentNPC); // Inicia o turno do NPC
+            if (gameOver)
+                return;
+
+            interrogationController.SetNPCByIndex(currentTurnIndex, true); // câmera em quem está jogando
+            waitingForPlayerCard = false;
+            npcs[currentTurnIndex].PlayTurn();
+
+            if (gameOver || waitingForPlayerCard)
+                return;
+            currentTurnIndex++;
         }
-        else
+
+        ShowRoundSummary();
+    }
+
+    // Chamados durante o turno de um NPC (SuggestionSystem, FinalAccusation, NPCAI).
+    public void ReportNPCTurn(string autor, string acao, string resultado)
+    {
+        roundRows.Add(new NPCTurnRow { autor = autor, acao = acao, resultado = resultado });
+    }
+
+    public void WaitForPlayerCard() => waitingForPlayerCard = true;
+
+    public void ResumeAfterPlayerCard()
+    {
+        waitingForPlayerCard = false;
+        currentTurnIndex++;
+        RunNPCTurns();
+    }
+
+    // Fim de jogo (acusação final de alguém): interrompe a rodada.
+    public void EndGame() => gameOver = true;
+
+    void ShowRoundSummary()
+    {
+        currentTurnIndex = 0;
+        if (roundRows.Count == 0)
         {
-            currentTurnIndex = 0; // Todos os NPCs jogaram, volta para o jogador
             StartPlayerTurn();
+            return;
         }
+
+        Detective.Dialogue.SessionLogger.Log("rodada_npcs",
+            ("linhas", roundRows.ConvertAll(r => $"{r.autor} | {r.acao} | {r.resultado}").ToArray()));
+        suggestionSystem.ShowRoundSummary(roundRows);
     }
 
-    // Função que simula o turno do NPC
-    void PlayNPCTurn(NPCAI npc)
-    {
-        // Chama a função para o NPC fazer um palpite (ou outra ação no turno dele)
-        npc.PlayTurn();
-    }
-
-    // Função para finalizar o turno do NPC e passar para o próximo
-    public void EndNPCTurn()
-    {
-        //Estava comentado antes
-        interrogationController.CloseNPCDialog(); // Fecha o diálogo do NPC atual
-
-        currentTurnIndex++; // Avança para o próximo NPC
-
-        if (currentTurnIndex < npcs.Count)
-        {
-            // Chama o próximo NPC
-            StartNPCTurn();
-        }
-        else
-        {
-            // Todos os NPCs jogaram, volta para o jogador
-            currentTurnIndex = 0;
-            StartPlayerTurn();
-        }
-    }
-
-    // Função chamada pelo botão "Continuar" para avançar o turno após o jogador terminar
+    // Botão "Continuar..." dos dois painéis de resultado:
+    // - resultado do palpite do jogador -> passa a vez aos NPCs;
+    // - resumo da rodada dos NPCs -> volta a vez ao jogador.
     public void OnNextTurnButtonPressed()
     {
+        playerSuggestionResultPanel.SetActive(false);
         if (isPlayerTurn)
         {
             Debug.Log("Encerrando turno do jogador");
-            playerSuggestionResultPanel.SetActive(false);
-            EndPlayerTurn(); // Finaliza o turno do jogador e passa para o NPC
+            EndPlayerTurn();
         }
         else
         {
-            Debug.Log("Encerrando turno do NPC, ID: " + currentTurnIndex);
-            playerSuggestionResultPanel.SetActive(false);
-            EndNPCTurn(); // Finaliza o turno do NPC e passa para o próximo
+            Debug.Log("Encerrando a rodada dos NPCs");
+            turnResultPanel.SetActive(false);
+            StartPlayerTurn();
         }
     }
 }

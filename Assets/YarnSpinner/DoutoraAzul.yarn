@@ -1,139 +1,168 @@
-﻿title: DoutoraAzulInicio
-tags:
-position: -200,100
+title: DoutoraAzulInicio
+tags: gerado_ia
+position: 0,200
 ---
-Detetive: "Doutora Azul, você trabalhava com o Sr. Vargas há quanto tempo?"
-Doutora Azul: "Há anos, detetive. O suficiente para entender bem os meandros de sua vida... e de seus conflitos."
-    -> "Havia conflitos entre vocês?"
-        <<jump DoutoraAzulConflitos>>
-    -> "Você conhecia muitos segredos dele?"
-        <<jump DoutoraAzulSegredos>>
-    -> "Como era a relação dele com os outros convidados?"
+// Gerado por IA (gpt-5.6-luna, reasoning_effort=medium), amostra 3. Revisar e editar a mao - ver tools/dialogos/README.md
+Doutora Azul: Serei objetiva. Respondo ao que puder, mas certas informações permanecem protegidas por confidencialidade profissional.
+    -> Qual era sua relação com o Sr. Vargas?
+        <<jump DoutoraAzulVitima>>
+    -> O que a senhora fez durante a festa?
+        <<jump DoutoraAzulNoite>>
+    -> O que pensa dos demais convidados?
         <<jump DoutoraAzulConvidados>>
 ===
 
-title: DoutoraAzulConflitos
-position: -250,250
+title: DoutoraAzulVitima
+tags: gerado_ia
+position: 0,400
 ---
-Doutora Azul: "No campo jurídico, conflitos são naturais, especialmente com alguém tão complexo quanto Vargas. Mas sempre mantivemos tudo no plano profissional."
-    -> "Então, nada de pessoal?"
-        <<jump DoutoraAzulPessoal>>
-    -> "Ele confiava em você?"
-        <<jump DoutoraAzulConfianca>>
+Doutora Azul: Fui advogada do Sr. Vargas por anos. Conheço conflitos que não posso expor sem violar limites profissionais, ainda que a situação seja grave.
+    -> Que segredos o Sr. Vargas guardava?
+        <<jump DoutoraAzulSegredos>>
+    -> A senhora tinha algum motivo contra ele?
+        <<jump DoutoraAzulMotivo>>
+    -> Agradeço sua cooperação; pode se retirar.
+        <<jump DoutoraAzulEncerrar>>
 ===
 
-title: DoutoraAzulPessoal
-position: -300,400
+title: DoutoraAzulNoite
+tags: gerado_ia
+position: 300,400
 ---
-Doutora Azul: "Detetive, cada profissional tem seus limites... e eu respeito os meus. Certos aspectos de nossa relação são confidenciais."
-    -> "Certo, respeito sua reserva."
-        <<jump DoutoraAzulNadaAqui>>
-    -> "Confidenciais, como segredos de negócios?"
-        <<reveal "Convai NPC Doutora Azul" "suspeito">> // Revela carta de Suspeito
-===
-
-title: DoutoraAzulConfianca
-position: -300,300
----
-Doutora Azul: "Confiança é algo raro, especialmente entre pessoas de poder. Ele confiava na minha discrição e em minha capacidade de resolver problemas."
-    -> "Problemas como ameaças?"
-        <<jump DoutoraAzulAmeacas>>
-    -> "Como ele reagia aos conflitos?"
-        <<jump DoutoraAzulReacoes>>
-===
-
-title: DoutoraAzulAmeacas
-position: -350,450
----
-Doutora Azul: "Vargas tinha uma maneira particular de lidar com problemas. Acreditava que a lei era um recurso... flexível. Mas nunca me envolvi além do que era necessário."
-    -> "Flexível, como?"
-        <<jump DoutoraAzulNadaAqui>>
-    -> "Quer dizer que ele ultrapassava limites?"
-        <<reveal "Convai NPC Doutora Azul" "arma do crime">> // Revela carta de Arma
-===
-
-title: DoutoraAzulReacoes
-position: -400,250
----
-Doutora Azul: "Ele não gostava de ser questionado, detetive. Para Vargas, o controle era essencial, e qualquer ameaça era uma ofensa pessoal."
-    -> "Ele se sentia ameaçado?"
-        <<jump DoutoraAzulNadaAqui>>
-    -> "E como você lidava com isso?"
-        <<jump DoutoraAzulNadaAqui>>
-===
-
-title: DoutoraAzulSegredos
-position: 100,250
----
-Doutora Azul: "Segredos, detetive, são parte de qualquer contrato de confidencialidade. Mas Vargas era alguém que gostava de manter cartas na manga."
-    -> "Você sabe algo que possa ajudar a investigação?"
-        <<jump DoutoraAzulAjuda>>
-    -> "Ele mantinha segredos sobre os outros convidados?"
-        <<jump DoutoraAzulConvidadosSegredos>>
-===
-
-title: DoutoraAzulAjuda
-position: 200,400
----
-Doutora Azul: "Vou ajudá-lo dentro do possível, mas lembre-se, sou advogada, não detetive. Preciso de provas antes de fazer qualquer afirmação."
-    -> "Sei que posso contar com sua ajuda, então."
-        <<jump DoutoraAzulNadaAqui>>
-    -> "E que provas você procura?"
-        <<jump DoutoraAzulProvas>>
-===
-
-title: DoutoraAzulProvas
-position: 300,500
----
-Doutora Azul: "Provas irrefutáveis, algo que vá além de meras suspeitas. A verdade, detetive, exige mais do que conjecturas."
-    -> "Certo, vamos buscar a verdade."
-        <<jump DoutoraAzulNadaAqui>>
-    -> "E o que você acha que vamos encontrar?"
-        <<jump DoutoraAzulNadaAqui>>
+Doutora Azul: A festa tinha uma cordialidade superficial, e eu estava particularmente cautelosa. O comportamento do Sr. Vargas tornava qualquer conversa potencialmente delicada.
+    -> Onde exatamente a senhora estava quando ocorreu o crime?
+        <<jump DoutoraAzulAlibi>>
+    -> Obrigado pelo depoimento; seguirei com os demais.
+        <<jump DoutoraAzulEncerrar>>
+    -> Notou algo estranho em algum cômodo?
+        <<jump DoutoraAzulLocais>>
 ===
 
 title: DoutoraAzulConvidados
-position: 300,100
+tags: gerado_ia
+position: 600,400
 ---
-Doutora Azul: "Os outros convidados? Ah, detetive, em círculos como o nosso, todos mantêm as aparências... mas há sempre algo por trás dos sorrisos educados."
-    -> "Algum deles se destacava para você?"
-        <<jump DoutoraAzulDestaca>>
-    -> "E quanto ao relacionamento com Vargas?"
-        <<jump DoutoraAzulRelacaoVargas>>
+Doutora Azul: Havia tensões mal disfarçadas entre alguns presentes. Vargas tratava qualquer questionamento como afronta, e não tolerava que ameaças fossem ignoradas.
+    -> Já tenho o que preciso; pode encerrar por aqui.
+        <<jump DoutoraAzulEncerrar>>
+    -> De quem a senhora desconfia?
+        <<jump DoutoraAzulSuspeita>>
+    -> Vargas tinha segredos com algum convidado?
+        <<jump DoutoraAzulSegredos>>
 ===
 
-title: DoutoraAzulDestaca
-position: 400,250
+title: DoutoraAzulMotivo
+tags: gerado_ia
+position: 0,600
 ---
-Doutora Azul: "Cada um tem suas particularidades, mas o Sr. Verde sempre foi... incisivo. Um homem que nunca esconde sua ambição."
-    -> "E você o vê como um possível suspeito?"
-        <<reveal "Convai NPC Doutora Azul" "suspeito">> // Revela carta de Suspeito
-    -> "Interessante, continue."
-        <<jump DoutoraAzulNadaAqui>>
+Doutora Azul: Discordar de um cliente não constitui motivo para matá-lo. Vargas via a lei como recurso flexível; ainda assim, sei algo sobre uma arma que não posso ignorar.
+    -> Prefiro não prosseguir sem uma solicitação formal.
+        <<jump DoutoraAzulEncerrar>>
+    -> O que a senhora sabe sobre essa arma?
+        <<jump DoutoraAzulRevelaArma>>
+    -> A senhora está escondendo alguma coisa de mim.
+        <<jump DoutoraAzulPressao>>
 ===
 
-title: DoutoraAzulRelacaoVargas
-position: 500,300
+title: DoutoraAzulSegredos
+tags: gerado_ia
+position: 300,600
 ---
-Doutora Azul: "A relação dele com Vargas era... conveniente. Ambos obtinham benefícios, mas conveniências são frágeis, detetive."
-    -> "Que tipo de benefícios?"
-        <<jump DoutoraAzulNadaAqui>>
-    -> "Então, havia algum atrito?"
-        <<jump DoutoraAzulNadaAqui>>
+Doutora Azul: Posso dizer apenas que Vargas acumulava assuntos comprometedores. Entre eles, havia algo relacionado a uma pessoa presente, mas não divulgarei mais sem base legal.
+    -> O que sabe sobre essa pessoa?
+        <<jump DoutoraAzulRevelaSuspeito>>
+    -> A senhora sabe mais do que está dizendo.
+        <<jump DoutoraAzulPressao>>
+    -> Respeitarei seus limites; encerramos aqui.
+        <<jump DoutoraAzulEncerrar>>
 ===
 
-title: DoutoraAzulConvidadosSegredos
-position: 100,450
+title: DoutoraAzulAlibi
+tags: gerado_ia
+position: 600,600
 ---
-Doutora Azul: "Ele tinha informações valiosas sobre cada um de nós. Vargas era um homem esperto, sabia que o poder está no que você sabe sobre os outros."
-    -> "Você acha que ele usava essas informações contra vocês?"
-        <<jump DoutoraAzulNadaAqui>>
-    -> "Alguém pode ter se incomodado com isso?"
-        <<jump DoutoraAzulNadaAqui>>
+Doutora Azul: Primeiro estive no Escritório, revisando contratos do Sr. Vargas; a Professora Roxa esteve lá por parte do tempo. Depois fui ao Hall de Entrada organizar cartões de visita. Notei algo fora do lugar num cômodo.
+    -> O que exatamente a senhora notou nesse cômodo?
+        <<jump DoutoraAzulRevelaLocal>>
+    -> Entendido. Não tomarei mais seu tempo.
+        <<jump DoutoraAzulEncerrar>>
+    -> Esse álibi tem uma brecha, não tem?
+        <<jump DoutoraAzulPressao>>
 ===
 
-title: DoutoraAzulNadaAqui
-position: -150,500
+title: DoutoraAzulLocais
+tags: gerado_ia
+position: 900,600
 ---
-Detetive: "Entendo, doutora. Vamos seguir adiante."
+Doutora Azul: A mansão parecia normal à primeira vista, mas certos detalhes não se ajustavam. Hesito quanto a um cômodo porque não quero transformar impressão em conclusão sem evidência.
+    -> Sua hesitação sugere que esconde algo.
+        <<jump DoutoraAzulPressao>>
+    -> Agradeço a cautela; pode deixar a investigação comigo.
+        <<jump DoutoraAzulEncerrar>>
+    -> O que a senhora viu nesse cômodo?
+        <<jump DoutoraAzulRevelaLocal>>
+===
+
+title: DoutoraAzulSuspeita
+tags: gerado_ia
+position: 1200,600
+---
+Doutora Azul: Minha desconfiança recai sobre quem tinha interesse em silenciar Vargas, não sobre uma pessoa que eu possa acusar. Interesse, porém, não equivale a autoria.
+    -> Sua cautela foi registrada; encerraremos por enquanto.
+        <<jump DoutoraAzulEncerrar>>
+    -> Está usando essa desconfiança para desviar a atenção?
+        <<jump DoutoraAzulPressao>>
+    -> O que sustenta essa desconfiança?
+        <<jump DoutoraAzulRevelaSuspeito>>
+===
+
+title: DoutoraAzulPressao
+tags: gerado_ia
+position: 0,800
+---
+Doutora Azul: Insistência não substitui prova. Ainda assim, se apresentar uma base concreta e respeitar os limites profissionais, talvez eu possa ceder em parte.
+    -> Não continuarei sob esse tipo de pressão.
+        <<jump DoutoraAzulEncerrar>>
+    -> Então a senhora é a responsável.
+        <<jump DoutoraAzulRecusa>>
+    -> Mostre, pela última vez, o que sabe.
+        <<jump DoutoraAzulRevelaArma>>
+===
+
+title: DoutoraAzulRevelaSuspeito
+tags: gerado_ia
+position: 300,800
+---
+<<reveal "Convai NPC Doutora Azul" "suspeito">>
+Doutora Azul: Está bem. Entrego isto para que examine por conta própria; não farei uma acusação que os fatos ainda não sustentam.
+===
+
+title: DoutoraAzulRevelaArma
+tags: gerado_ia
+position: 600,800
+---
+<<reveal "Convai NPC Doutora Azul" "arma do crime">>
+Doutora Azul: Concordo em fornecer isto. Examine o material com rigor, mas não atribua significado além do que ele efetivamente demonstrar.
+===
+
+title: DoutoraAzulRevelaLocal
+tags: gerado_ia
+position: 900,800
+---
+<<reveal "Convai NPC Doutora Azul" "local">>
+Doutora Azul: Mostro isto agora. O detalhe merece verificação independente, sem que se extraia dele uma conclusão prematura.
+===
+
+title: DoutoraAzulRecusa
+tags: gerado_ia
+position: 0,1000
+---
+Doutora Azul: Não aceitarei uma acusação direta como substituto de procedimento e evidência. Minha participação nesta conversa termina aqui.
+===
+
+title: DoutoraAzulEncerrar
+tags: gerado_ia
+position: 1500,600
+---
+Doutora Azul: Minha colaboração possível foi oferecida. Para o restante, será necessário reunir fatos verificáveis e respeitar os limites profissionais.
 ===

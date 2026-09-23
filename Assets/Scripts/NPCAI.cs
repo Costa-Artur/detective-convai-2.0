@@ -9,6 +9,7 @@ public class NPCAI : MonoBehaviour
     public GameController gameController;
     private SuggestionSystem suggestionSystem;
     private FinalAccusation finalAccusation;
+    private TurnController turnController;
     public bool HasLost = false;
     [ReadOnly]
     public LocalInventory npcInventory; // Inventário do NPC
@@ -23,6 +24,7 @@ public class NPCAI : MonoBehaviour
     private void Awake() {
         suggestionSystem = gameController.GetComponent<SuggestionSystem>();
         finalAccusation = gameController.GetComponent<FinalAccusation>();
+        turnController = gameController.GetComponent<TurnController>();
         npcInventory = GetComponent<LocalInventory>();
     }
     void Start()
@@ -39,7 +41,11 @@ public class NPCAI : MonoBehaviour
         if (HasLost)
         {
             Debug.Log($"{GetComponent<ConvaiNPC>().characterName} já perdeu e não pode mais jogar.");
-            return; // Se o NPC perdeu, ele não joga mais
+            // Passa a vez (o TurnController segue para o próximo NPC). O NPC
+            // eliminado continua respondendo a palpites (inventário intacto),
+            // como no Detetive/Cluedo.
+            turnController.ReportNPCTurn(GetComponent<ConvaiNPC>().characterName, "—", "fora do jogo");
+            return;
         }
         // Continua o turno normalmente se não tiver perdido
 

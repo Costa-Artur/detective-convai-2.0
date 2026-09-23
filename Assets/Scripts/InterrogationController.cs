@@ -24,6 +24,7 @@ public class InterrogationController : MonoBehaviour
     public Detective.Dialogue.UnifiedDialogueUI unifiedDialogueUI;
 
     private int currentIndex = 0; // Índice do personagem atual
+    private int conversationIndex = -1; // Personagem cuja conversa está aberta (-1 = nenhuma)
     private Dictionary<int, string> dialogStyle = new Dictionary<int, string>(); // Dicionário para estilo de diálogo (Convai ou Yarn Spinner)
  
 
@@ -154,7 +155,23 @@ public class InterrogationController : MonoBehaviour
         Detective.Dialogue.IDialogueSource source = GetDialogueSource(index);
         if (source == null) return;
 
+        conversationIndex = index;
         unifiedDialogueUI.OpenConversation(source);
+    }
+
+    // O palpite do jogador e os turnos dos NPCs movem a câmera para quem está
+    // respondendo (SetNPCByIndex em segundo plano), mas a conversa aberta
+    // continua sendo a do personagem interrogado. Sem isto, a conversa com um
+    // personagem voltava na frente da câmera de outro, e "Próximo"/"Anterior"
+    // partiam do índice errado.
+    public void RestoreConversationView()
+    {
+        if (conversationIndex < 0)
+            return;
+
+        currentIndex = conversationIndex;
+        SetActiveCamera(currentIndex, true);
+        UpdateCharacterName(currentIndex);
     }
 
     // Cada NPC carrega os DOIS componentes de origem (roteirizado e dinâmico);
